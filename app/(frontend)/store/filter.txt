@@ -1,0 +1,227 @@
+import { useState, useEffect } from "react";
+
+// Example products data
+const products = [
+  { id: 1, name: "Laptop", category: "Electronics", price: 800, dateAdded: "2024-01-15" },
+  { id: 2, name: "Shirt", category: "Clothing", price: 20, dateAdded: "2024-02-20" },
+  { id: 3, name: "Washing Machine", category: "Electronics", price: 300, dateAdded: "2023-11-10" },
+  { id: 4, name: "Jeans", category: "Clothing", price: 40, dateAdded: "2024-03-05" },
+  { id: 5, name: "Book", category: "Stationery", price: 15, dateAdded: "2024-05-01" },
+  { id: 6, name: "Smartphone", category: "Electronics", price: 600, dateAdded: "2024-03-10" },
+  { id: 7, name: "Desk", category: "Furniture", price: 120, dateAdded: "2024-01-10" },
+];
+
+// Example search results data
+const searchResults = [
+  { id: 2, name: "Shirt", category: "Clothing", price: 20, dateAdded: "2024-02-20" },
+  { id: 5, name: "Book", category: "Stationery", price: 15, dateAdded: "2024-05-01" },
+];
+
+const categories = ["Electronics", "Clothing", "Stationery", "Furniture"];
+
+const encodeCategories = (categories) => {
+  // Convert category names to IDs (for simplicity, we use the index as the ID)
+  const categoryIDs = categories.map((cat) => categories.indexOf(cat));
+  return btoa(categoryIDs.join(","));
+};
+
+const decodeCategories = (encodedString) => {
+  try {
+    const decodedString = atob(encodedString);
+    const categoryIndexes = decodedString.split(",");
+    return categoryIndexes.map((index) => categories[index]);
+  } catch (error) {
+    console.error("Error decoding categories:", error);
+    return [];
+  }
+};
+
+export default function ProductFilter() {
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [sortOption, setSortOption] = useState("alphabetical");
+  const [loading, setLoading] = useState(false); // Loading state
+
+  const [search, setSearch] = useState(""); // To capture search term
+
+  // Set the products to display based on the search query
+  const productsToDisplay = search ? searchResults : products;
+
+  // Update the URL query string without reloading the page
+  const updateUrl = (categories, priceRange, sortOption) => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Encode the categories
+    const encodedCategories = encodeCategories(categories);
+
+    // Update categories, if any
+    if (categories.length > 0) {
+      params.set("categories", encodedCategories);
+    } else {
+      params.delete("categories");
+    }
+
+    // Update price range
+    params.set("minPrice", priceRange[0]);
+    params.set("maxPrice", priceRange[1]);
+
+    // Update sorting
+    params.set("sort", sortOption);
+
+    // Update the URL without reloading
+    window.history.pushState(null, "", "?" + params.toString());
+  };
+
+  useEffect(() => {
+    // Parse URL parameters on initial load
+    const params = new URLSearchParams(window.location.search);
+    const urlCategories = params.get("categories")
+      ? decodeCategories(params.get("categories"))
+      : [];
+    const urlMinPrice = params.get("minPrice") ? Number(params.get("minPrice")) : 0;
+    const urlMaxPrice = params.get("maxPrice") ? Number(params.get("maxPrice")) : 1000;
+    const urlSort = params.get("sort") || "alphabetical";
+
+    setSelectedCategories(urlCategories);
+    setPriceRange([urlMinPrice, urlMaxPrice]);
+    setSortOption(urlSort);
+  }, []);
+
+  // Toggle category selection
+  const toggleCategory = (category) => {
+    setLoading(true); // Set loading state before processing
+
+    const updatedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter((cat) => cat !== category)
+      : [...selectedCategories, category];
+    setSelectedCategories(updatedCategories);
+    updateUrl(updatedCategories, priceRange, sortOption);
+
+    setLoading(false); // Reset loading state after processing
+  };
+
+  // Update price range in the URL
+  const updatePriceRange = (e, index) => {
+    const value = Number(e.target.value);
+    const newPriceRange = index === 0 ? [value, priceRange[1]] : [priceRange[0], value];
+    setPriceRange(newPriceRange);
+    updateUrl(selectedCategories, newPriceRange, sortOption);
+  };
+
+  // Update sorting option in the URL
+  const updateSortOption = (e) => {
+    const newSort = e.target.value;
+    setSortOption(newSort);
+    updateUrl(selectedCategories, priceRange, newSort);
+  };
+
+  // Filter the products based on selected categories and price range
+  const filteredProducts = productsToDisplay.filter((product) => {
+    const isInCategory =
+      selectedCategories.length === 0 || selectedCategories.includes(product.category);
+    const isInPriceRange = product.price >= priceRange[0] && product.price <= priceRange[1];
+    return isInCategory && isInPriceRange;
+  });
+
+  // Sort filtered products based on the selected sort option
+  const sortProducts = (products) => {
+    switch (sortOption) {
+      case "alphabetical":
+        return products.sort((a, b) => a.name.localeCompare(b.name));
+      case "newest":
+        return products.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+      case "lowToHigh":
+        return products.sort((a, b) => a.price - b.price);
+      case "highToLow":
+        return products.sort((a, b) => b.price - a.price);
+      default:
+        return products;
+    }
+  };
+
+  const sortedProducts = sortProducts(filteredProducts);
+
+  return (
+    <div>
+      <h1>{search ? `Search Results for: ${search}` : "Product Filter"}</h1>
+
+      {/* Loading Indicator */}
+      {loading && <p>Loading...</p>}
+
+      {/* Categories Section */}
+      <div>
+        <h2>Categories</h2>
+        {categories.map((category) => (
+          <label key={category}>
+            <input
+              type="checkbox"
+              checked={selectedCategories.includes(category)}
+              onChange={() => toggleCategory(category)}
+            />
+            {category}
+          </label>
+        ))}
+      </div>
+
+      {/* Price Range Section */}
+      <div>
+        <h2>Price Range</h2>
+        <div>
+          <label>
+            Min Price:
+            <input
+              type="number"
+              value={priceRange[0]}
+              min="0"
+              max={priceRange[1] - 1}
+              onChange={(e) => updatePriceRange(e, 0)}
+            />
+          </label>
+          <label>
+            Max Price:
+            <input
+              type="number"
+              value={priceRange[1]}
+              min={priceRange[0] + 1}
+              max="1000"
+              onChange={(e) => updatePriceRange(e, 1)}
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* Sorting Section */}
+      <div>
+        <h2>Sort By</h2>
+        <select value={sortOption} onChange={updateSortOption}>
+          <option value="alphabetical">Alphabetical (A-Z)</option>
+          <option value="newest">Newest First</option>
+          <option value="lowToHigh">Price: Low to High</option>
+          <option value="highToLow">Price: High to Low</option>
+        </select>
+      </div>
+
+      {/* Selected Categories */}
+      {selectedCategories.length > 0 && (
+        <div>
+          <h3>Selected Categories:</h3>
+          {selectedCategories.map((category) => (
+            <span key={category}>{category} </span>
+          ))}
+        </div>
+      )}
+
+      {/* Products List */}
+      <div>
+        {sortedProducts.map((product) => (
+          <div key={product.id}>
+            <p>{product.name}</p>
+            <p>Category: {product.category}</p>
+            <p>Price: ${product.price}</p>
+            <p>Date Added: {product.dateAdded}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

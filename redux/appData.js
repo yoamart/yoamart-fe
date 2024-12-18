@@ -119,7 +119,7 @@ export const productsApi = createApi({
         body: credentials,
         headers: { "Content-Type": "application/json" },
       }),
-      onQueryStarted: async (arg, { queryFulfilled }) => {
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         // const { setAuthSession } = useSession();
         try {
           const result = await queryFulfilled;

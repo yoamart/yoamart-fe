@@ -20,7 +20,7 @@ export default function Banner1() {
           //   "https://klbtheme.com/bacola/wp-content/plugins/bacola-core/elementor/images/banner-box2.jpg"
           // }
 
-          src="/images/new/349x232_3x-removebg-preview.png"
+          src="/images/349x232_3x-removebg-preview.png"
           alt="banner1"
           width={349}
           height={232}

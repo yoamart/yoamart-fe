@@ -9,7 +9,7 @@ export default function Banner3() {
         <div className="w-full h-full mx-auto relative">
           <Image
             // src={"/images/test.jpg"}
-            src="/images/new/270x200 landscape 1@3x.jpg"
+            src="/images/270x200landscape1@3x.jpg"
             alt="slider"
             width={420}
             height={229}
@@ -44,7 +44,7 @@ export default function Banner3() {
         <div className="w-full h-full mx-auto relative">
           <Image
             // src={"/images/butter.jpg"}
-            src="/images/new/270x200 landscape 3@3x.jpg"
+            src="/images/270x200landscape3@3x.jpg"
             alt="slider"
             width={420}
             height={229}

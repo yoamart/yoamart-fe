@@ -44,7 +44,7 @@ export function MobileSidebar() {
                 className="object-cover w-full h-full"
                 width={164}
                 height={44}
-                src="/images/new/760--203 YOA@3x.png"
+                src="/images/760--203YOA@3x.png"
                 alt="yoamart logo"
               />
             </Link>

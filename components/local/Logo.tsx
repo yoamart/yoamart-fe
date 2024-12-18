@@ -12,21 +12,21 @@ export default function Logo() {
         className="object-cover w-full h-full md:hidden"
         width={77}
         height={19}
-        src="/images/new/539--133 YOA@3x.png"
+        src="/images/539--133YOA@3x.png"
         alt="yoamart logo"
       />
       <Image
         className="object-cover  hidden lg:hidden md:block"
         width={100}
         height={44}
-        src="/images/new/760--203 YOA@3x.png"
+        src="/images/760--203YOA@3x.png"
         alt="yoamart logo"
       />
       <Image
         className="object-cover w-full h-full hidden lg:block"
         width={164}
         height={44}
-        src="/images/new/760--203 YOA@3x.png"
+        src="/images/760--203YOA@3x.png"
         alt="yoamart logo"
       />
       <p className="text-[10px] opacity-50 md:block hidden">

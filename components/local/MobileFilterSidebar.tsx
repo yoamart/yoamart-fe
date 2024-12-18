@@ -50,7 +50,7 @@ export function MobileFilterSidebar({
                 className="object-cover w-full h-full"
                 width={164}
                 height={44}
-                src="/images/760-203.png"
+                src="/images/539--133YOA@3x.png"
                 alt="yoamart logo"
               />
             </Link>

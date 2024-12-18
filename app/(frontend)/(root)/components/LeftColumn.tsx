@@ -63,14 +63,14 @@ export default function LeftColumn() {
         <div className="relative h-full w-full">
           {" "}
           <Image
-            src="/images/new/270x350potrait 3@3x.jpg"
+            src="/images/270x350potrait3@3x.jpg"
             alt="slider"
             width={270}
             height={403}
             className="w-full object-cover h-full rounded-lg object-bottom hidden md:block filter brightness-75 blur-[0.2px]"
           />
           <Image
-            src="/images/new/270x200 landscape 2@3x.jpg"
+            src="/images/270x200landscape2@3x.jpg"
             alt="slider"
             width={270}
             height={403}

@@ -18,12 +18,12 @@ export default function OrderDetails() {
       </div>
     );
   }
-  const orders: Order[] = data.orders;
+  const orderss: Order[] = data?.orders;
   return (
     <div className="px-2 md:px-10">
       {/* Orders Table */}
       <div className="p-6 my-10">
-        {orders.map((order) => (
+        {orderss?.map((order) => (
           <div key={order?._id} className="mb-6 border-2 p-5 rounded-md">
             <div className="flex justify-between items-center mb-4">
               <div>

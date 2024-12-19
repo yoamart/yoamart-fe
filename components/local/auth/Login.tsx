@@ -21,10 +21,13 @@ import { loginSchema } from "@/lib/zodSchema";
 import { toast } from "sonner";
 import { useLoginMutation } from "@/redux/appData";
 import Link from "next/link";
+import Recaptcha from "../Recaptcha";
+import { useCaptcha } from "@/hooks/use-captcha";
 
 export default function Login() {
   const [globalError, setGlobalError] = useState<string>("");
   const router = useRouter();
+  const { captchaRef, getCaptchaToken, resetCaptcha } = useCaptcha();
 
   const [
     login,
@@ -47,11 +50,18 @@ export default function Login() {
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     setGlobalError("");
     try {
-      // console.log(values);
-      await login(values);
-      // console.log(result);
-      // const decodedToken = jwtDecode(result.data.token);
-      // console.log(decodedToken)
+      const captcha = getCaptchaToken(); // Use the getCaptchaToken function from the hook
+      if (!captcha) {
+        setGlobalError("Please complete the CAPTCHA verification.");
+        return;
+      }
+
+      resetCaptcha();
+      const credentials = {
+        ...values, // This will include email and password from the form
+        captcha, // Add CAPTCHA token
+      };
+      await login(credentials);
     } catch (error) {
       // toast.error("An unexpected error occurred.");
       setGlobalError("An unexpected error occurred.");
@@ -147,6 +157,8 @@ export default function Login() {
                 )}
               />
             </div>
+            <Recaptcha captchaRef={captchaRef} />
+
             <div className="w-full">
               {isLoadingLogin ? (
                 <Button

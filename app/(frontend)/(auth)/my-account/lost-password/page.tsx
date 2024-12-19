@@ -19,11 +19,14 @@ import ErrorMessage from "@/components/local/auth/errorMessage";
 import { lostPasswordSchema } from "@/lib/zodSchema";
 import { toast } from "sonner";
 import { useLostPasswordMutation } from "@/redux/appData";
+import Recaptcha from "@/components/local/Recaptcha";
+import { useCaptcha } from "@/hooks/use-captcha";
 
 export default function LostPassword() {
   const [globalError, setGlobalError] = useState<string>("");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { captchaRef, getCaptchaToken, resetCaptcha } = useCaptcha();
 
   const [
     lostPassword,
@@ -45,8 +48,18 @@ export default function LostPassword() {
   const onSubmit = async (values: z.infer<typeof lostPasswordSchema>) => {
     setGlobalError("");
     try {
-      // console.log(values);
-      await lostPassword(values);
+      const captcha = getCaptchaToken(); // Use the getCaptchaToken function from the hook
+      if (!captcha) {
+        setGlobalError("Please complete the CAPTCHA verification.");
+        return;
+      }
+
+      resetCaptcha();
+      const credentials = {
+        ...values, // This will include email and password from the form
+        captcha, // Add CAPTCHA token
+      };
+      await lostPassword(credentials);
       //   console.log(result);
     } catch (error) {
       // toast.error("An unexpected error occurred.");
@@ -113,6 +126,7 @@ export default function LostPassword() {
                   </FormItem>
                 )}
               />
+              <Recaptcha captchaRef={captchaRef} />
 
               <div className="">
                 {isLoadingReset ? (

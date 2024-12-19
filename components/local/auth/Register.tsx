@@ -21,6 +21,8 @@ import { Loader } from "lucide-react";
 import { registerSchema } from "@/lib/zodSchema";
 import { useRegisterMutation } from "@/redux/appData";
 import { toast } from "sonner";
+import { useCaptcha } from "@/hooks/use-captcha";
+import Recaptcha from "../Recaptcha";
 
 // export interface DecodedToken {
 //   email: string;
@@ -30,7 +32,7 @@ import { toast } from "sonner";
 
 export default function Register() {
   const [globalError, setGlobalError] = useState<string>("");
-  // const [token, setToken] = useState<string>("");
+  const { captchaRef, getCaptchaToken, resetCaptcha } = useCaptcha();
   const router = useRouter();
 
   const [
@@ -55,9 +57,18 @@ export default function Register() {
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     setGlobalError(""); // Reset global error before submission
     try {
-      console.log(values);
-      const result = await register(values);
-      console.log(result);
+      const captcha = getCaptchaToken(); // Use the getCaptchaToken function from the hook
+      if (!captcha) {
+        setGlobalError("Please complete the CAPTCHA verification.");
+        return;
+      }
+
+      resetCaptcha();
+      const credentials = {
+        ...values, // This will include email and password from the form
+        captcha, // Add CAPTCHA token
+      };
+      await register(credentials);
       // setToken(result?.data?.id);
     } catch (error) {
       // toast.error("An unexpected error occurred.");
@@ -194,6 +205,8 @@ export default function Register() {
                 </FormItem>
               )}
             />
+
+            <Recaptcha captchaRef={captchaRef} />
 
             <div className="w-full">
               {isLoadingRegister ? (

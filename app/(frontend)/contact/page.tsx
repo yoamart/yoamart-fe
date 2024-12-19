@@ -1,3 +1,4 @@
+import ContactForm from '@/components/local/ContactForm'
 import React from 'react'
 
 export default function page() {
@@ -43,13 +44,13 @@ export default function page() {
 
 {/* <!-- Send Us Section --> */}
 <section className="py-12 bg-white shadow-md mb-10 rounded-lg">
-  <div className="max-w-5xl mx-auto text-center">
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Send Us</h2>
-    <p className="text-gray-600 mt-4">
+  <div className="max-w-5xl mx-auto">
+    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center">Send Us</h2>
+    <p className="text-gray-600 mt-4 text-center">
       Lorem, ipsum dolor sit amet consectetur adipiscing elit. Expedita quaerat unde quam dolor culpa veritatis inventore, aut commodi eum veniam vel.
     </p>
 
-    <div className="mt-10 p-8 ">
+    {/* <div className="mt-10 p-8 ">
       <form action="#" method="POST" className="space-y-6">
         <div className="grid md:grid-cols-2 gap-6">
           <div>
@@ -78,7 +79,9 @@ export default function page() {
           Send Message
         </button>
       </form>
-    </div>
+    </div> */}
+
+    <ContactForm />
   </div>
 </section>
 

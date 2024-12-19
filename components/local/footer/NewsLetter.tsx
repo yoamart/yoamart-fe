@@ -1,9 +1,94 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import Recaptcha from "../Recaptcha"; // Assuming you have Recaptcha component already set up
+import { useCaptcha } from "@/hooks/use-captcha"; // Assuming this is the custom hook for captcha handling
+import { Loader } from "lucide-react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+// import { toast } from "sonner";
+
+// Zod schema for validating the email field
+const newsletterSchema = z.object({
+  email: z
+    .string()
+    .email("Please enter a valid email address")
+    .nonempty("Email is required"),
+});
+
+type NewsletterFormValues = z.infer<typeof newsletterSchema>;
 
 export default function NewsLetter() {
+  const [globalError, setGlobalError] = useState<string>("");
+  const { captchaRef, getCaptchaToken, resetCaptcha } = useCaptcha(); // Captcha methods
+  const form = useForm<NewsletterFormValues>({
+    resolver: zodResolver(newsletterSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const isLoading = false;
+
+  const onSubmit = async (values: z.infer<typeof newsletterSchema>) => {
+    setGlobalError("");
+    try {
+      const captcha = getCaptchaToken(); // Use the getCaptchaToken function from the hook
+      if (!captcha) {
+        setGlobalError("Please complete the CAPTCHA verification.");
+        return;
+      }
+
+      resetCaptcha();
+      const credentials = {
+        ...values,
+        captcha,
+      };
+
+      console.log(credentials);
+    } catch (error) {
+      // toast.error("An unexpected error occurred.");
+      setGlobalError("An unexpected error occurred.");
+      console.error("An error occurred:", error);
+    }
+  };
+
+  // React.useEffect(() => {
+  //   if (isSuccess) {
+  //     toast.success("Subscription successful.", {
+  //       position: "top-center",
+  //     });
+  //   } else if (isError) {
+  //     if (
+  //       "data" in error &&
+  //       typeof error.data === "object"
+  //     ) {
+  //       const errorMessage = (error.data as { message?: string })
+  //         ?.message;
+  //       setGlobalError(errorMessage || "Failed to subscribe.");
+  //       toast.error(errorMessage || "Failed to subscribe.", {
+  //         position: "top-center",
+  //       });
+  //     } else {
+  //       setGlobalError("An unexpected error occurred.");
+  //       toast.error("An unexpected error occurred.", {
+  //         position: "top-center",
+  //       });
+  //     }
+  //   }
+  // }, [isSuccess, isError, error]);
+
   return (
     <div className="bg-green-600 text-white pt-10 px-5 md:px-10 flex flex-col md:flex-row gap-10 relative">
       {/* Left Content */}
@@ -18,23 +103,64 @@ export default function NewsLetter() {
         </p>
 
         {/* Subscription Form */}
-
         <div className="relative">
-          <Input
-            type="email"
-            autoComplete="off"
-            placeholder="Your email address"
-            className="bg-[#f3f4f7] p-5 w-full h-full text-gray-900 "
-          />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+              <div className="">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            className="bg-[#f3f4f7] p-7 w-full text-gray-900"
+                            type="email"
+                            placeholder="Enter your email"
+                            autoComplete="off"
+                            {...field}
+                          />
+                          <div className="absolute top-1/2 right-3 transform -translate-y-1/2">
+                            {isLoading ? (
+                              <Button
+                                disabled
+                                className="bg-ysecondary flex items-center justify-center gap-1"
+                                type="submit"
+                              >
+                                <span>Please wait</span>
+                                <Loader className="animate-spin" />
+                              </Button>
+                            ) : (
+                              <Button
+                                className="bg-yprimary hover:bg-green-400"
+                                type="submit"
+                              >
+                                Subscribe
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />{" "}
+              </div>
+              {/* Recaptcha */}
+              <Recaptcha captchaRef={captchaRef} />
 
-          <Button className="absolute top-1/2 right-3 transform -translate-y-1/2 bg-yprimary text-white px-6 py-3  font-semibold hover:bg-yprimary/50">
-            Subscribe
-          </Button>
+              {globalError && (
+                <p className="text-red-500 text-sm mt-2">{globalError}</p>
+              )}
+            </form>
+          </Form>
         </div>
       </div>
 
       {/* Right Content - Image */}
-      <div className="flex-1 relative ">
+      <div className="flex-1 relative">
         <Image
           src="https://klbtheme.com/bacola/wp-content/uploads/2021/04/coupon.png"
           alt="Discount Placeholder"

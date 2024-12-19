@@ -59,6 +59,7 @@ export const useCart = () => {
             };
 
             const result = await createOrder(credentials);
+            
             dispatch(clearCart());
             toast.success('order process started')
             router.push(`/checkout/${result?.data?.order?._id}`, { scroll: true });

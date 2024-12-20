@@ -5,10 +5,10 @@ export default function Hero() {
   return (
     <div className="px-2 lg:px-10 flex gap-5 w-full py-5">
       {/* Left Section */}
-      <div className="relative w-full md:w-[270px] h-[229px] md:h-[350px] rounded-lg overflow-hidden shadow-md hidden lg:block">
+      <div className="relative lg:w-[23%] h-[229px] md:h-[350px] rounded-lg overflow-hidden shadow-md hidden lg:block">
         {/* Background Image */}
 
-        <div className="relative h-full w-full">
+        <div className="relative h-full ">
           {" "}
           <Image
             src="/images/output1.jpg"
@@ -33,8 +33,8 @@ export default function Hero() {
       </div>
 
       {/* Main Section */}
-      <div className="relative w-full lg:w-[calc(100vw-320px)] md:h-[365px] lg:pl-5">
-        <div className="relative h-full">
+      <div className="relative w-full lg:w-[77%] md:h-[365px] lg:pl-3">
+        <div className="relative h-full ">
           <Image
             // src={
             //   "https://klbtheme.com/bacola/wp-content/uploads/2021/04/slider-image-1.jpg"

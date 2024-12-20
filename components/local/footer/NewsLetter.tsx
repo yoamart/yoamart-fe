@@ -90,10 +90,10 @@ export default function NewsLetter() {
   // }, [isSuccess, isError, error]);
 
   return (
-    <div className="bg-green-600 text-white pt-10 px-5 md:px-10 flex flex-col md:flex-row gap-10 relative">
+    <div className="bg-ysecondary text-white pt-10 px-5 md:px-10 flex flex-col md:flex-row gap-10 relative">
       {/* Left Content */}
       <div className="flex-1 space-y-4 md:pb-10">
-        <p className="text-lg font-light">$20 discount for your first order</p>
+        {/* <p className="text-lg font-light">$20 discount for your first order</p> */}
         <h2 className="text-2xl lg:text-3xl font-semibold leading-tight">
           Join our newsletter and get...
         </h2>

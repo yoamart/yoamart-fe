@@ -22,6 +22,7 @@ import React from "react";
 import { useGetAllCategoryQuery } from "@/redux/appData";
 import { shuffleArray } from "@/hooks/shuffle";
 import { Category } from "@/lib/types";
+import { categoryIcons, CategoryNames } from "../CategoryIcons";
 
 export function MobileSidebar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -70,7 +71,9 @@ export function MobileSidebar() {
                         href={`/store/?category=${categories?._id}`}
                         className="flex items-center gap-3 text-[#3e445a] hover:text-ysecondary"
                       >
-                        <Box className="w-5 h-5" />
+                        {categoryIcons[categories?.name as CategoryNames] || (
+                          <Box className="w-5 h-5 text-ysecondary group-hover:text-white" />
+                        )}{" "}
                         <p className="text-sm">{categories?.name}</p>
                       </Link>
                     </li>
@@ -109,7 +112,9 @@ export function MobileSidebar() {
                       href={`/store/?category=${data?._id}`}
                       className="flex items-center gap-3 text-[#3e445a] hover:text-ysecondary"
                     >
-                      <Box className="w-5 h-5" />
+                      {categoryIcons[data?.name as CategoryNames] || (
+                        <Box className="w-5 h-5 text-ysecondary group-hover:text-white" />
+                      )}{" "}
                       <p className="text-sm">{data?.name}</p>
                     </Link>
                   </SheetClose>

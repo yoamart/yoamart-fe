@@ -45,6 +45,7 @@ export default function Store() {
     }
   };
 
+  // The function to handle category selection
   const handleCategorySelect = (categoryId: string) => {
     setCategory((prev) => {
       // Check if the categoryId is already in the array
@@ -57,6 +58,25 @@ export default function Store() {
       }
     });
   };
+
+  React.useEffect(() => {
+    // This will run every time the 'category' state changes
+
+    // Create a new instance of URLSearchParams from the current URL
+    const params = new URLSearchParams(window.location.search);
+
+    // Update the 'category' parameter in the URL with the updated 'category' state
+    params.set("category", category.join(","));
+
+    // Construct the new URL with updated parameters
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+
+    // Update the browser's URL without reloading the page
+    window.history.pushState(null, "", newUrl);
+  }, [category]); // This hook depends on 'category' state
+
+  // const queryCategory = category.length > 0 ? category : categorySearch;
+  // const queryCategory = category.length > 0 ? category.join(",") : category;
 
   const { data, isLoading, error } = useGetAllProductQuery(
     {
@@ -82,7 +102,27 @@ export default function Store() {
   React.useEffect(() => {
     // Sync the state with the URL search parameter
     setSearchTitle(searchQueryFromUrl);
-  }, [searchQueryFromUrl]);
+
+    const categoryQueryFromUrl = searchParams.get("category");
+    if (categoryQueryFromUrl) {
+      const categoriesFromUrl = categoryQueryFromUrl.split(",");
+      setCategory(categoriesFromUrl); // Set categories from the URL
+    }
+  }, [searchParams, searchQueryFromUrl]);
+
+  // React.useEffect(() => {
+  //   const categoryQueryFromUrl = searchParams.get("category") || "";
+  //   const categoryQueryFromUrlArray = categoryQueryFromUrl
+  //     ? [categoryQueryFromUrl]
+  //     : [];
+
+  //   setCategorySearch(categoryQueryFromUrlArray);
+  // }, [searchParams]);
+
+  // React.useEffect(() => {
+  //   // Sync the state with the URL search parameter
+  //   setSearchTitle(searchQueryFromUrl);
+  // }, [searchQueryFromUrl]);
   const [search, { data: searchData, isLoading: searchIsLoading }] =
     useLazySearchQuery();
 
@@ -116,7 +156,7 @@ export default function Store() {
   const [range, setRange] = useState<[number, number]>([0, highestPrice]);
 
   const handleFilter = (selectedRange: SelectedRange) => {
-    setRange([selectedRange.min, selectedRange.max]);
+    setRange([0, selectedRange.max]);
     setMin(selectedRange.min);
     setMax(selectedRange.max);
   };
@@ -124,6 +164,16 @@ export default function Store() {
   const handleSortChange = (value: string) => {
     setSort(value); // Update sort state directly
   };
+
+
+  const [isLoadingData, setIsLoadingData] = useState(false);
+
+  React.useEffect(() => {
+    setIsLoadingData(true);
+    const timer = setTimeout(() => setIsLoadingData(false), 500); // Simulate a delay
+    return () => clearTimeout(timer);
+  }, [category, sort, min, max, inStock, outOfStock]);
+
 
   const {
     data: categories,
@@ -133,8 +183,7 @@ export default function Store() {
   // console.log(data && data);
   // Shuffle data and pick the first 9 categories
   const categoryData: Category[] = categories ? categories.category : [];
-  const isAnyLoading = isLoading || searchIsLoading || isLoadingCategories;
-
+  const isAnyLoading = isLoadingData ||isLoading || searchIsLoading || isLoadingCategories;
 
   return (
     <div className="px-2 lg:px-10 flex gap-5 w-full">
@@ -148,6 +197,7 @@ export default function Store() {
           isLoading={isLoadingCategories}
           onStockChange={handleStockChange}
           onCategoryChange={handleCategorySelect}
+          selectedCategory={category}
         />
       </div>
 
@@ -199,6 +249,7 @@ export default function Store() {
               isLoading={isLoadingCategories}
               onStockChange={handleStockChange}
               onCategoryChange={handleCategorySelect}
+              selectedCategory={category}
             />{" "}
           </div>
           <div className="flex items-center gap-3 md:justify-end md:w-full">
@@ -224,7 +275,7 @@ export default function Store() {
           </div>{" "}
         </div>
         {isAnyLoading ? (
-          <div className="w-full rounded-lg border h-[50vh] flex items-center justify-center">
+          <div className="w-full rounded-lg border h-[70vh] flex items-center justify-center">
             <CustomLoader />
           </div>
         ) : error ? (

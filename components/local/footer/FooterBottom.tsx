@@ -6,7 +6,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export default function FooterBottom() {
   return (
-    <div className="bg-white text-[#989bb4] py-8">
+    <div className="bg-white  py-8">
       {/* Top Section */}
       <div className="grid grid-cols-1 md:grid-cols-2  gap-4 items-center justify-between px-5 md:px-20 border-b border-gray-200 pb-6">
         {/* Contact Info */}
@@ -25,13 +25,13 @@ export default function FooterBottom() {
         <div className="flex items-center gap-3 md:justify-end">
           {/* Placeholder Social Icons */}
           <div className="w-8 h-8 rounded-full flex items-center justify-center border border-gray-200">
-            <FaFacebookF className="text-yprimary" />
+            <FaFacebookF className="" />
           </div>
           <div className="w-8 h-8 rounded-full flex items-center justify-center border border-gray-200">
-            <FaXTwitter  className="text-yprimary" />
+            <FaXTwitter  className="" />
           </div>
           <div className="w-8 h-8 rounded-full flex items-center justify-center border border-gray-200">
-            <FaInstagram  className="text-yprimary" />
+            <FaInstagram  className="" />
           </div>
         </div>
       </div>

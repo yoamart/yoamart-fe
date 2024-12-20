@@ -113,7 +113,7 @@ export default function ProductMain({ data }: { data: Product }) {
             <p className="text-[#c2c3c7] text-sm">
               Category:{" "}
               <span className="font-semibold text-black/50">
-                {data?.category}
+                {data?.categoryId?.name}
               </span>
             </p>
           </div>

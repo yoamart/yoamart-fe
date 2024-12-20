@@ -31,7 +31,10 @@ export function MobileFilterSidebar({
   isLoading,
   onStockChange, // Added prop for stock change
   onCategoryChange,
-}: MobileFilterSidebarProps & { onStockChange: (status: string) => void } & {
+  selectedCategory,
+}: MobileFilterSidebarProps & { selectedCategory: string[] } & {
+  onStockChange: (status: string) => void;
+} & {
   onCategoryChange: (status: string) => void;
 }) {
   return (
@@ -65,6 +68,7 @@ export function MobileFilterSidebar({
             isLoading={isLoading}
             onStockChange={onStockChange} // Added prop for stock change
             onCategoryChange={onCategoryChange}
+            selectedCategory={selectedCategory}
           />
         </div>
       </SheetContent>

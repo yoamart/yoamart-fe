@@ -164,7 +164,7 @@ export default function ProductCard({
             variant={"outline"}
             className={` text-[12px] w-full  rounded-[30px] ${
               newProduct
-                ? "hover:bg-yprimary md:hidden group-hover:block hover:text-white text-white bg-yprimary"
+                ? "hover:bg-ysecondary md:hidden group-hover:block hover:text-white text-white bg-ysecondary"
                 : "hover:text-white hover:bg-ysecondary text-white bg-ysecondary"
             }`}
           >

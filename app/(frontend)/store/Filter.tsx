@@ -12,7 +12,10 @@ export default function Filter({
   isLoading,
   onStockChange, // Added prop for stock change
   onCategoryChange,
-}: MobileFilterSidebarProps & { onStockChange: (status: string) => void } & {
+  selectedCategory,
+}: MobileFilterSidebarProps & { selectedCategory: string[] } & {
+  onStockChange: (status: string) => void;
+} & {
   onCategoryChange: (status: string) => void;
 }) {
   return (
@@ -33,6 +36,7 @@ export default function Filter({
                 <input
                   type="checkbox"
                   className="h-3 w-3"
+                  checked={selectedCategory.includes(cat._id)}
                   onChange={() => onCategoryChange(cat._id)}
                 />
                 <p className="text-sm text-[#7e7e7e]">{cat.name}</p>

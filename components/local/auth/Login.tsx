@@ -86,14 +86,8 @@ export default function Login() {
   React.useEffect(() => {
     if (isSuccessLogin) {
       toast.success(`Login Successful`, {
-        // description: "Cart updated",
-        // action: {
-        //   label: "View cart",
-        //   onClick: () => router.push("/cart"),
-        // },
         position: "top-center",
       });
-      router.push("/");
     } else if (isErrorLogin) {
       if ("data" in errorLogin && typeof errorLogin.data === "object") {
         const errorMessage = (errorLogin.data as { message?: string })?.message;

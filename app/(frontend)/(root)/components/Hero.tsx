@@ -17,7 +17,6 @@ export default function Hero() {
             height={403}
             className="w-full object-cover h-full rounded-lg object-bottom "
           />
-         
           <div className="absolute inset-0 bg-black/30"></div>
         </div>
 
@@ -56,10 +55,10 @@ export default function Hero() {
             One-Stop Shop for All Your Needs
           </h2>
           <h1 className="text-2xl md:text-4xl font-bold text-white leading-tight">
-            Fresh Fruits, Dairy, Beverages, and More!
+            Health, Beauty, Home Essentials, and More!{" "}
           </h1>
           <p className="text-sm md:text-base text-white mt-2 opacity-80">
-            Explore Weekly Discounts
+            Explore Regular Discounts
           </p>
           <p className="text-xl md:text-3xl font-bold text-yprimary">
             Shop Now & Save Big!

@@ -11,15 +11,24 @@ export default function MyAccount() {
   const session = useSelector((state: RootState) => state.auth.isAuthenticated);
   // console.log("session", session);
 
+  const searchParams = new URLSearchParams(window.location.search);
+  const redirect = searchParams.get("redirect");
+
+  React.useEffect(() => {
+    if (redirect) {
+      window.location.href = redirect;
+    }
+  }, [redirect]);
+
   return (
     <>
       {session ? (
         <Dashboard />
       ) : (
-        <div className="md:min-h-[50vh] flex justify-center items-center  my-10">
+        <div className="md:min-h-[50vh] flex justify-center items-center my-10">
           <Tabs
             defaultValue="login"
-            className="md:border rounded-md p-5 w-[448px] min-h-[600px]"
+            className="md:border rounded-md p-5 w-[448px] min-h-[400px]"
           >
             <TabsList className="mx-auto w-full bg-transparent space-x-10">
               <TabsTrigger

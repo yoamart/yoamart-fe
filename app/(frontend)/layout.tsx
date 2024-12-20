@@ -21,8 +21,9 @@ export default function RootLayout({
     <>
       {" "}
       <HeaderAnnouncement />
+      <Header />
       <div className="max-w-7xl mx-auto">
-        <Header />
+        
 
         <div
           className={` ${

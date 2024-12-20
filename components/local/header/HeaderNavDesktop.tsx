@@ -4,7 +4,8 @@ import React from "react";
 
 export default function HeaderNavDesktop() {
   return (
-    <div className="lg:grid grid-cols-3 w-full px-10 py-2 border-b border-gray-300 hidden">
+    <div className=" w-full  py-2 border-b border-gray-300  hidden lg:block ">
+      <div className="lg:grid grid-cols-3 max-w-7xl mx-auto hidden px-10">
       <div className="flex gap-5 items-center">
         <Link
           href={"/about-us"}
@@ -43,6 +44,7 @@ export default function HeaderNavDesktop() {
             + 0020 500
           </a>
         </p>
+      </div>
       </div>
     </div>
   );

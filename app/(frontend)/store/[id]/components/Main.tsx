@@ -10,7 +10,7 @@ import { shuffleArray } from "@/hooks/shuffle";
 import NoItemFound from "@/components/local/NoItemFound";
 
 export default function Main({ id }: { id: string }) {
-  const { data, isLoading } = useGetAllProductQuery({ page: 1, limit: 20 });
+  const { data, isLoading } = useGetAllProductQuery({ page: 1, limit: 60 });
   const { data: product, isLoading: i } = useGetProductByIdQuery(id);
   if (isLoading || i) {
     // Handle the case where the product is not found
@@ -34,7 +34,9 @@ export default function Main({ id }: { id: string }) {
     );
   }
   const relatedProducts = products.filter(
-    (product) => product.categoryId === productData?.categoryId && product._id !== productData?._id
+    (product) =>
+      product?.categoryId?._id === productData?.categoryId?._id &&
+      product?._id !== productData?._id
   );
 
   const shuffledData: Product[] = shuffleArray([...relatedProducts]);

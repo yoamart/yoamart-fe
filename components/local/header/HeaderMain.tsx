@@ -41,7 +41,8 @@ export default function HeaderMain() {
 
   return (
     <>
-      <div className="flex flex-col gap-6 px-2 lg:px-10 pt-2 md:pt-5 pb-2 border-b border-gray-300 shadow-sm md:shadow-none">
+      <div className=" pt-2 md:pt-5 pb-2 border-b border-gray-300 shadow-sm md:shadow-none">
+       <div className="flex flex-col gap-6 px-2 lg:px-10 max-w-7xl mx-auto">
         <div className="flex justify-between items-center md:gap-10 lg:gap-[60px]">
           {/* <Menu className="w-7 h-7 lg:hidden  md:hidden" /> */}
           <div className="w-7 h-7 lg:hidden  md:hidden">
@@ -97,6 +98,7 @@ export default function HeaderMain() {
         </div>
 
         <HeaderBottom />
+      </div>
       </div>
     </>
   );

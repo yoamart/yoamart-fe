@@ -7,6 +7,7 @@ import { Box, ChevronDown, Menu } from "lucide-react";
 import Link from "next/link";
 // import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { categoryIcons, CategoryNames } from "../CategoryIcons";
 
 export default function HeaderBottom() {
   // const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function HeaderBottom() {
 
   const { data } = useGetAllCategoryQuery(undefined);
   const category: Category[] = data ? data.category : [];
+
   // const shuffledData: Category[] = shuffleArray([...category]);
 
   return (
@@ -63,7 +65,10 @@ export default function HeaderBottom() {
                     className="flex items-center gap-3 text-[#3e445a] group hover:text-white hover:bg-ysecondary rounded-lg py-2 px-4 transition-all duration-200 ease-in-out"
                   >
                     {/* Add an icon (using Box or replace with any other icon) */}
-                    <Box className="w-5 h-5 text-ysecondary group-hover:text-white" />
+                    {categoryIcons[categories?.name as CategoryNames] || (
+                      <Box className="w-5 h-5 text-ysecondary group-hover:text-white" />
+                    )}
+
                     <p className="text-sm font-medium line-clamp-1">
                       {categories?.name}
                     </p>
@@ -95,7 +100,10 @@ export default function HeaderBottom() {
             href={`/store/?category=${categories?._id}`}
             className="flex items-center gap-2 font-dosis uppercase hover:bg-ysecondary text-[#3e445a] hover:bg-opacity-10 font-semibold hover:text-ysecondary  rounded-[30px] hover:px-3 py-2"
           >
-            <Box className="w-5 h-5" /> <p className="">{categories?.name}</p>
+            {categoryIcons[categories?.name as CategoryNames] || (
+              <Box className="w-5 h-5 text-ysecondary" />
+            )}{" "}
+            <p className="">{categories?.name}</p>
           </Link>
         ))}
 

@@ -1,7 +1,7 @@
 import { shuffleArray } from "@/hooks/shuffle";
 import { Category, Product } from "@/lib/types";
 import { useGetAllCategoryQuery, useGetAllProductQuery } from "@/redux/appData";
-import { DollarSign, Milk, Tags, Truck } from "lucide-react";
+import { Currency,  Milk, Tags, Truck } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 
@@ -48,7 +48,7 @@ export default function FooterMain() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <DollarSign className="w-6 h-6" />
+          <Currency className="w-6 h-6" />
           <p className="font-medium text-[13px]">
             Unbeatable value, every time.
           </p>

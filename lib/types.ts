@@ -1,8 +1,7 @@
 export interface Product {
     _id: string;
     name: string;
-    category: string;
-    categoryId: string; // Reference to Category type
+    categoryId: CategorySp; // Reference to Category type
     image: string[];
     price: number;
     quantity: number;
@@ -15,6 +14,13 @@ export interface Product {
     updatedAt: string;
     __v: number;
 }
+
+export interface CategorySp {
+    _id: string;
+    name: string;
+   
+}
+
 
 
 export interface Category {

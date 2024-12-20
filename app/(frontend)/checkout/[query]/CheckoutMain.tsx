@@ -116,8 +116,6 @@ export default function CheckoutMain({ orderId }: { orderId: string }) {
     }
   }, [globalError, termsAccepted]);
 
-
-
   if (isLoadingOrder) {
     return (
       <div className="h-screen flex items-center justify-center">
@@ -276,7 +274,12 @@ export default function CheckoutMain({ orderId }: { orderId: string }) {
                   {item?.name}
                   <span className="font-bold px-2">x {item?.quantity}</span>
                 </span>
-                <span>{item?.price}</span>
+                <span>
+                  {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  }).format(item?.price)}
+                </span>
               </div>
             ))}
 

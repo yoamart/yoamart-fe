@@ -1,3 +1,4 @@
+"use server"
 import { NextResponse, NextRequest } from "next/server";
 
 const protectedPaths = [
@@ -23,12 +24,21 @@ export async function middleware(request: NextRequest) {
 
 
     if (!token && isProtected) {
-        return NextResponse.redirect(new URL("/my-account", request.url)); // Redirect if not authenticated
+        const url = new URL("/my-account", request.url);
+        url.searchParams.set("redirect", request.nextUrl.pathname); // Store the original path as 'redirect'
+        return NextResponse.redirect(url);
     }
 
     if (token && isAuth) {
-        return NextResponse.redirect(new URL("/my-account", request.url));
+        // Check if the `redirect` query parameter is present
+        const redirectUrl = request.nextUrl.searchParams.get("redirect");
+
+        // Redirect to the specified path if `redirect` is available, otherwise go to `/my-account`
+        const destination = redirectUrl ? redirectUrl : "/my-account";
+
+        return NextResponse.redirect(new URL(destination, request.url));
     }
+
 
 
     return NextResponse.next(); // Allow access if conditions are met

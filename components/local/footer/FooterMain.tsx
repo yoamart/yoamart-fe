@@ -22,7 +22,7 @@ export default function FooterMain() {
   // console.log(products)
   const getRandomProductsByCategory = (categoryId: string): Product[] => {
     const filteredProducts = products.filter(
-      (product) => product.categoryId === categoryId
+      (product) => product.categoryId._id === categoryId
     );
     return shuffleArray([...filteredProducts]).slice(0, 7);
   };

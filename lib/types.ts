@@ -38,8 +38,7 @@ export interface Category {
 export type CartItem = {
     _id: string;
     name: string;
-    categoryId: string; // Reference to Category type
-    category: string; // Reference to Category type
+    categoryId: CategorySp; // Reference to Category type
     image: string[];
     price: number;
     quantity: number;

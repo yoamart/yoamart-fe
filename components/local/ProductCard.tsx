@@ -25,6 +25,12 @@ import {
   removeFromFavorites,
 } from "@/redux/slices/favoriteSlice";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export default function ProductCard({
   newProduct,
@@ -107,12 +113,21 @@ export default function ProductCard({
         </a>
 
         {/* Product Text */}
-        <a
-          href={`/store/${data?._id}`}
-          className="line-clamp-1 font-medium text-sm hover:text-yprimary"
-        >
-          {data?.name}
-        </a>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <a
+                href={`/store/${data?._id}`}
+                className="line-clamp-1 font-medium text-sm hover:text-yprimary"
+              >
+                {data?.name}
+              </a>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{data?.name}</p> {/* Full name displayed on hover */}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <p
           className={`uppercase ${
             data?.inStock ? "text-[#30e682]" : "text-red-500"

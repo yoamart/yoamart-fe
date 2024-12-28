@@ -69,7 +69,7 @@ export const productsApi = createApi({
         url: "/auth/create",
         method: "POST",
         body: credentials,
-        // headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
       }),
       onQueryStarted: async (arg, { queryFulfilled }) => {
         try {

@@ -143,13 +143,13 @@ function ProductImages({ images }: { images: string[] }) {
       <CarouselContent>
         {images.map((image, index) => (
           <CarouselItem key={index}>
-            <div className=" w-full flex items-center justify-center lg:h-[393px]">
+            <div className="w-full flex items-center justify-center h-[230px] lg:h-[393px]">
               <Image
                 src={image}
                 alt="slider"
                 width={430}
                 height={393}
-                className="object-contain h-full w-full lg:w-full lg:h-full rounded-lg bg-white"
+                className="object-contain h-full w-full rounded-lg bg-white"
               />
             </div>
           </CarouselItem>

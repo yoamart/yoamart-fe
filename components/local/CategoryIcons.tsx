@@ -4,12 +4,10 @@ import {
   FaBroom,
   FaCogs,
   FaGlassMartiniAlt,
-  FaRegQuestionCircle,
   FaRegSmile,
   FaTshirt,
   FaWrench,
 } from "react-icons/fa";
-
 
 export type CategoryNames =
   | "Clothing"
@@ -17,7 +15,6 @@ export type CategoryNames =
   | "Beauty ,Health & personal care"
   | "Home & Kitchen"
   | "Drinks"
-  | "test category"
   | "Baby & kids products"
   | "Cleaning products "
   | "Tools";
@@ -38,9 +35,7 @@ export const categoryIcons: Record<CategoryNames, JSX.Element> = {
   Drinks: (
     <FaGlassMartiniAlt className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
-  "test category": (
-    <FaRegQuestionCircle className="w-5 h-5 text-ysecondary group-hover:text-white" />
-  ),
+
   "Baby & kids products": (
     <FaBaby className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),

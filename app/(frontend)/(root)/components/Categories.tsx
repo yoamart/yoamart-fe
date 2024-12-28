@@ -10,7 +10,7 @@ import React from "react";
 
 export default function Categories() {
   const { data, isLoading, error } = useGetAllCategoryQuery(undefined);
-  console.log(data && data);
+  // console.log(data && data);
   // Shuffle data and pick the first 9 categories
   const category: Category[] = data ? data.category : [];
   const shuffledData: Category[] = shuffleArray([...category]);
@@ -42,7 +42,7 @@ export default function Categories() {
                     alt={featuredCategory.name}
                     width={193}
                     height={193}
-                    className="w-full object-cover h-full bg-gray-300"
+                    className="w-full object-cover h-full"
                   />
                 </Link>
                 <Link
@@ -71,7 +71,7 @@ export default function Categories() {
                       alt={category.name}
                       width={70}
                       height={70}
-                      className="w-full object-cover h-full bg-gray-300"
+                      className="w-full object-cover h-full"
                     />
                   </Link>
                   <div className="space-y-2">

@@ -54,7 +54,7 @@ export default function HeaderMain() {
             </div>
             <Logo />
           </div>
-          <div className="hidden lg:block w-full">
+          <div className="hidden md:block w-full">
            
             <SearchBar />
           </div>

@@ -4,15 +4,15 @@ import React from "react";
 export default function Banner3() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-      <div className="relative w-full  h-[229px] rounded-lg overflow-hidden ">
+      <div className="relative w-full  h-[250px] rounded-lg overflow-hidden ">
         {/* Background Image */}
         <div className="w-full h-full mx-auto relative">
           <Image
             // src={"/images/test.jpg"}
-            src="/images/270x200landscape1@3x.jpg"
+            src="/images/knorr.jpg"
             alt="slider"
             width={420}
-            height={229}
+            height={250}
             className="w-full object-cover h-full filter brightness-75 blur-[0.2px] object-bottom" // Adds darkness and slight blur
             // className="w-full object-fit h-full  object-bottom"
           />
@@ -22,14 +22,14 @@ export default function Banner3() {
 
         {/* Text Content */}
         <div className="absolute top-6 right-5 md:right-7 text-right">
-          <p className="text-sm text-gray-700">Flavor That Inspires</p>
-          <h2 className="text-xl font-light text-gray-800">
+          <p className="text-sm text-gray-100">Flavor That Inspires</p>
+          <h2 className="text-xl font-light text-gray-100">
             Cook With Confidence
           </h2>
-          <h1 className="text-2xl font-bold text-green-800">
+          <h1 className="text-2xl font-bold text-green-400">
             Knorr Chicken Seasoning
           </h1>
-          <p className="text-sm text-gray-400 mt-2">Starting at</p>
+          <p className="text-sm text-gray-300 mt-2">Starting at</p>
           <p className="text-2xl font-bold text-red-500">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
@@ -39,15 +39,15 @@ export default function Banner3() {
         </div>
       </div>
 
-      <div className="relative w-full h-[229px] rounded-lg overflow-hidden">
+      <div className="relative w-full h-[250px] rounded-lg overflow-hidden">
         {/* Background Image */}
         <div className="w-full h-full mx-auto relative">
           <Image
             // src={"/images/butter.jpg"}
-            src="/images/270x200landscape3@3x.jpg"
+            src="/images/harpic.jpg"
             alt="slider"
             width={420}
-            height={229}
+            height={250}
             className="w-full object-cover h-full filter brightness-75 blur-[0.2px] object-bottom" // Adds darkness and slight blur
           />
 
@@ -57,14 +57,14 @@ export default function Banner3() {
 
         {/* Text Content */}
         <div className="absolute top-6 left-6 z-10">
-          <p className="text-sm text-gray-700">Cleanliness Guaranteed</p>
-          <h2 className="text-xl font-light text-gray-800">
+          <p className="text-sm text-gray-100">Cleanliness Guaranteed</p>
+          <h2 className="text-xl font-light text-gray-100">
             Keep Your Home Fresh
           </h2>
-          <h1 className="text-2xl font-bold text-blue-600">
+          <h1 className="text-2xl font-bold text-blue-400">
             Harpic Disinfectant
           </h1>
-          <p className="text-sm text-gray-400 mt-2">Now available for</p>
+          <p className="text-sm text-gray-300 mt-2">Now available for</p>
           <p className="text-2xl font-bold text-red-500">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",

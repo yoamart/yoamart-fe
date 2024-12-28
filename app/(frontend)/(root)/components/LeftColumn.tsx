@@ -17,20 +17,20 @@ export default function LeftColumn() {
   const trendingProducts: Product[] = shuffledData.slice(0, 5);
   return (
     <div className="flex flex-col gap-5 w-full">
-      <div className="relative w-full md:w-[270px] h-[229px] md:h-[350px] rounded-lg overflow-hidden shadow-md">
+      <div className="relative w-full md:w-[270px] h-[250px] md:h-[350px] rounded-lg overflow-hidden shadow-md">
         {/* Background Image */}
 
         <div className="relative h-full w-full">
           {" "}
           <Image
-            src="/images/output2.jpg"
+            src="/images/red-wine-desktop.jpg"
             alt="slider"
             width={270}
             height={403}
             className="w-full object-cover h-full rounded-lg object-bottom hidden md:block filter brightness-75 blur-[0.2px]"
           />
           <Image
-            src="/images/output2.jpg"
+            src="/images/red-wine-mobile.jpg"
             alt="slider"
             width={270}
             height={403}
@@ -41,11 +41,11 @@ export default function LeftColumn() {
 
         {/* Text Content */}
         <div className="top-6 absolute right-3 text-right">
-          <p className="text-sm text-gray-700">Celebrate Every Moment</p>
-          <h2 className="text-xl font-light text-gray-800">
+          <p className="text-sm text-gray-100">Celebrate Every Moment</p>
+          <h2 className="text-xl font-light text-gray-100">
             Fine Taste, Rich Experience
           </h2>
-          <h1 className="text-2xl font-bold text-purple-700">
+          <h1 className="text-2xl font-bold text-purple-500">
             Premium Red Wine
           </h1>
           <p className="text-sm text-gray-400 mt-2">From only</p>
@@ -53,24 +53,24 @@ export default function LeftColumn() {
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
               currency: "NGN",
-            }).format(3000)}
+            }).format(2600)}
           </p>
         </div>
       </div>
 
-      <div className="relative w-full md:w-[270px] h-[229px] md:h-[350px] rounded-lg overflow-hidden shadow-md">
+      <div className="relative w-full md:w-[270px] h-[250px] md:h-[350px] rounded-lg overflow-hidden shadow-md">
         {/* Background Image */}
         <div className="relative h-full w-full">
           {" "}
           <Image
-            src="/images/270x350potrait3@3x.jpg"
+            src="/images/cornflakes-desktop.jpg"
             alt="slider"
             width={270}
             height={403}
             className="w-full object-cover h-full rounded-lg object-bottom hidden md:block filter brightness-75 blur-[0.2px]"
           />
           <Image
-            src="/images/270x200landscape2@3x.jpg"
+            src="/images/cornflakes-mobile.jpg"
             alt="slider"
             width={270}
             height={403}
@@ -80,19 +80,19 @@ export default function LeftColumn() {
         </div>
         {/* Text Content */}
         <div className="absolute top-6 left-6 ">
-          <p className="text-sm text-gray-700">Healthy & Delicious</p>
-          <h2 className="text-xl font-light text-gray-800">
-            The Perfect Spread
+          <p className="text-sm text-gray-100">Crispy & Nutritious</p>
+          <h2 className="text-xl font-light text-gray-100">
+            A Breakfast Classic
           </h2>
-          <h1 className="text-2xl font-bold text-yellow-600">
-            Blue Band Margarine
+          <h1 className="text-2xl font-bold text-yellow-400">
+            Golden Crunch Cornflakes
           </h1>
-          <p className="text-sm text-gray-400 mt-2">From as low as</p>
+          <p className="text-sm text-gray-300 mt-2">From as low as</p>
           <p className="text-2xl font-bold text-red-500">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
               currency: "NGN",
-            }).format(2400)}
+            }).format(3250)}
           </p>
         </div>
       </div>

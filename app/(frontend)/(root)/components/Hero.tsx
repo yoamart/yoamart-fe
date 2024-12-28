@@ -11,7 +11,7 @@ export default function Hero() {
         <div className="relative h-full ">
           {" "}
           <Image
-            src="/images/output1.jpg"
+            src="/images/table-water.jpg"
             alt="slider"
             width={270}
             height={403}
@@ -22,13 +22,18 @@ export default function Hero() {
 
         {/* Text Content */}
         <div className="top-6 absolute right-3 text-right">
-          <p className="text-sm text-gray-200"> Yoamart Refresh</p>
-          <h2 className="text-xl font-light text-gray-200">Pure Hydration</h2>
+          <p className="text-sm text-gray-200">Refresh Your Senses</p>
+          <h2 className="text-xl font-light text-gray-200">Pure & Crisp</h2>
           <h1 className="text-2xl font-bold text-gray-200">
-            Natural Sparkling Mineral Water
+            Premium Table Water
           </h1>
           <p className="text-sm text-gray-200 mt-2">starting-at</p>
-          <p className="text-2xl font-bold text-red-400">$14.99</p>
+          <p className="text-2xl font-bold text-red-400">
+            {new Intl.NumberFormat("en-NG", {
+              style: "currency",
+              currency: "NGN",
+            }).format(150)}
+          </p>
         </div>
       </div>
 

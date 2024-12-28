@@ -69,6 +69,7 @@ export default function Register() {
         captcha, // Add CAPTCHA token
       };
       await register(credentials);
+
       // setToken(result?.data?.id);
     } catch (error) {
       // toast.error("An unexpected error occurred.");

@@ -25,6 +25,7 @@ import {
   CategoryNames,
   getCategoryImage,
 } from "@/components/local/CategoryIcons";
+import NoItemFound from "@/components/local/NoItemFound";
 
 type SelectedRange = {
   min: number;
@@ -277,9 +278,9 @@ export default function Store() {
               alt="banner"
               width={600}
               height={230}
-              className="w-full h-full object-cover rounded-lg filter brightness-75 blur-[0.1px] "
+              className="w-full h-full object-cover rounded-lg filter brightness-90 blur-[0.1px] "
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div> */}
           </div>
 
           {/* Text Content */}
@@ -350,10 +351,15 @@ export default function Store() {
           </div>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-4 border rounded-lg">
-            {" "}
-            {productsToDisplay.map((data, index) => (
-              <ProductCard key={index} data={data} />
-            ))}
+            {productsToDisplay.length > 0 ? (
+              productsToDisplay.map((data, index) => (
+                <ProductCard key={index} data={data} />
+              ))
+            ) : (
+              <div className="col-span-2 lg:col-span-4 flex justify-center items-center h-full">
+                <NoItemFound title1="No products found" title2="" />
+              </div>
+            )}
           </div>
         )}
         <PaginationComponent

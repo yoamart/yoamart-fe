@@ -1,8 +1,11 @@
+import { RootState } from "@/lib/types";
 import { HandshakeIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
 export default function HeaderNavDesktop() {
+  const session = useSelector((state: RootState) => state.auth.userData);
   return (
     <div className=" w-full  py-2 border-b border-gray-300  hidden lg:block ">
       <div className="lg:grid grid-cols-3 max-w-7xl mx-auto hidden px-10">
@@ -25,6 +28,14 @@ export default function HeaderNavDesktop() {
           >
             Wishlist
           </Link>
+          {session && session?.role === "admin" && (
+            <a
+              href={"/admin/dashboard"}
+              className="text-[12px] text-[#3E445A] hover:text-ysecondary"
+            >
+              Admin
+            </a>
+          )}
         </div>
 
         <div className="flex items-center gap-2">

@@ -21,7 +21,10 @@ import { Category, Product } from "@/lib/types";
 import CustomLoader from "@/components/local/CustomLoader";
 import Filter from "./Filter";
 import { useSearchParams } from "next/navigation";
-import { CategoryNames, getCategoryImage } from "@/components/local/CategoryIcons";
+import {
+  CategoryNames,
+  getCategoryImage,
+} from "@/components/local/CategoryIcons";
 
 type SelectedRange = {
   min: number;
@@ -259,7 +262,7 @@ export default function Store() {
 
       {/* Main Section */}
       <div className="w-full md:w-[calc(100vw-320px)] flex flex-col gap-5">
-        <section className="relative w-full  md:h-[230px] rounded-lg overflow-hidden shadow-lg">
+        <section className="relative w-full md:h-[336px] rounded-lg overflow-hidden shadow-lg">
           {/* Background Image */}
           <div className="relative">
             <Image
@@ -284,8 +287,10 @@ export default function Store() {
             <p className="text-xs text-white tracking-wide uppercase">
               {content.subTitle}
             </p>
-            <h2 className="text-lg font-medium text-white">{content.title}</h2>
-            <h1 className="text-2xl font-bold text-white">
+            <h2 className="md:text-lg font-medium text-white">
+              {content.title}
+            </h2>
+            <h1 className="md:text-2xl font-bold text-white">
               {content.highlight}
             </h1>
           </div>

@@ -263,7 +263,7 @@ export default function Store() {
 
       {/* Main Section */}
       <div className="w-full md:w-[calc(100vw-320px)] flex flex-col gap-5">
-        <section className="relative w-full md:h-[336px] rounded-lg overflow-hidden shadow-lg">
+        <section className="relative w-full h-full rounded-lg overflow-hidden shadow-lg">
           {/* Background Image */}
           <div className="relative">
             <Image

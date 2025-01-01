@@ -2,7 +2,10 @@
 
 import axios from 'axios';
 
-const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/dgz5bgdzc/image/upload`;
+// const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/dgz5bgdzc/image/upload`;
+
+const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/dm5jjt6kc/image/upload`;
+
 
 /**
  * Upload an image to Cloudinary
@@ -12,7 +15,9 @@ const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/dgz5bgdzc/image/uplo
 export const uploadImageToCloudinary = async (imageFile: File) => {
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('upload_preset', "db0zguvf");
+    // formData.append('upload_preset', "db0zguvf");
+    formData.append('upload_preset', "yoamart");
+
     // formData.append("folder", "bitekitchen");
 
     try {

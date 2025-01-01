@@ -45,6 +45,7 @@ export default function CheckoutMain({ orderId }: { orderId: string }) {
 
   const order: Order = data?.order;
 
+
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
@@ -325,13 +326,13 @@ export default function CheckoutMain({ orderId }: { orderId: string }) {
               </div>
               <div className="bg-gray-100 p-4 rounded-lg text-sm text-gray-700 mt-2">
                 <p>
-                  <strong>Bank Name:</strong> ABC Bank
+                  <strong>Bank Name:</strong> Zenith Bank
                 </p>
                 <p>
-                  <strong>Account Name:</strong> Your Company Name
+                  <strong>Account Name:</strong> YOA Supermarket
                 </p>
                 <p>
-                  <strong>Account Number:</strong> 1234567890
+                  <strong>Account Number:</strong> 1229146777
                 </p>
                 <p>
                   <strong>Order Reference:</strong>{" "}

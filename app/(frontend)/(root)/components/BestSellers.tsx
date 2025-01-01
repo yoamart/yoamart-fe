@@ -13,18 +13,17 @@ import {
 import { useGetAllProductQuery } from "@/redux/appData";
 import { Product } from "@/lib/types";
 import CustomLoader from "@/components/local/CustomLoader";
-import { shuffleArray } from "@/hooks/shuffle";
 import Link from "next/link";
 
 export default function BestSellers() {
   const { data, isLoading, error } = useGetAllProductQuery({
     page: 1,
-    limit: 20,
+    limit: 604,
   });
-  // console.log("fff", data && data.products);
-  const products: Product[] = data ? data.products : [];
-  const shuffledData: Product[] = shuffleArray([...products]);
-  const bestSellers: Product[] = shuffledData.slice(0, 5);
+
+  const bestSellers: Product[] = data?.products.filter(
+    (product: Product) => product.isFeatured === true
+  );
 
   return (
     <div className="space-y-5">

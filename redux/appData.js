@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-import { setCredentials } from "./slices/authSlice";
+import { clearCredentials, setCredentials } from "./slices/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "http://localhost:5004/api/",
-  baseUrl: "https://yoamart.com/api",
+  baseUrl: "http://localhost:5004/api/",
+  // baseUrl: "https://yoamart.com/api",
   prepareHeaders: (headers) => {
     const token = Cookies.get("token");
     if (token) {
@@ -15,13 +15,16 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
   // Custom response handler to handle text responses
-  async responseHandler(response) {
+  async responseHandler(response, api) {
     const text = await response.text();
     try {
       const jsonResponse = JSON.parse(text);
 
       if (jsonResponse && jsonResponse.message === "jwt expired") {
-        localStorage.removeItem("token");
+        Cookies.remove("token");
+
+        // Dispatch logout to clear Redux state
+        api.dispatch(clearCredentials());
         window.location.href = "/my-account";
       }
 
@@ -35,7 +38,7 @@ const baseQuery = fetchBaseQuery({
 export const productsApi = createApi({
   reducerPath: "products",
   baseQuery,
-  tagTypes: ["Category", "Product"],
+  tagTypes: ["Category", "Product", "Order", "OrderID"],
 
   endpoints: (builder) => ({
     // start optimistic updates yet to be tested
@@ -235,8 +238,16 @@ export const productsApi = createApi({
       headers: { "Content-Type": "application/json" },
     }),
 
+    getAllOrders: builder.query({
+      query: () => "/order/all/orders",
+      providesTags: ["Order"],
+
+      headers: { "Content-Type": "application/json" },
+    }),
+
     getUserOrderById: builder.query({
       query: (orderId) => `/order/${orderId}`,
+      providesTags: ["OrderID"],
       headers: { "Content-Type": "application/json" },
     }),
 
@@ -332,6 +343,202 @@ export const productsApi = createApi({
         method: "GET",
       }),
     }),
+    toggleStock: builder.mutation({
+      query: (productId) => ({
+        url: `/product/stock`,
+        method: "POST",
+        body: productId,
+        headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Product"],
+    }),
+
+    isHot: builder.mutation({
+      query: (productId) => ({
+        url: `/product/isHot`,
+        method: "POST",
+        body: productId,
+        headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Product"],
+    }),
+
+    bestSeller: builder.mutation({
+      query: (productId) => ({
+        url: `/product/isFeatured`,
+        method: "POST",
+        body: productId,
+        headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Product"],
+    }),
+
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/product/${id}`,
+        method: "DELETE",
+        // body: formData,
+      }),
+
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          // console.log("registered");
+          await queryFulfilled;
+        } catch (err) {
+          // console.error("category delete failed:", err);
+        }
+      },
+      invalidatesTags: ["Product"],
+    }),
+
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "DELETE",
+        // body: formData,
+      }),
+
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          // console.log("registered");
+          await queryFulfilled;
+        } catch (err) {
+          // console.error("category delete failed:", err);
+        }
+      },
+      invalidatesTags: ["Category"],
+    }),
+
+    createProduct: builder.mutation({
+      query: (credentials) => ({
+        url: "/product/create-product",
+        method: "POST",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Product"],
+    }),
+
+    editProduct: builder.mutation({
+      query: ({ credentials, productId }) => ({
+        url: `/product/${productId}`,
+        method: "PATCH",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Product"],
+    }),
+
+    createCategory: builder.mutation({
+      query: (credentials) => ({
+        url: "/category/create-category",
+        method: "POST",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Category"],
+    }),
+
+    editCategory: builder.mutation({
+      query: ({ credentials, categoryId }) => ({
+        url: `/category/${categoryId}`,
+        method: "PATCH",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Category"],
+    }),
+
+    exportToCsv: builder.query({
+      query: () => ({
+        url: "/product/export/csv/",
+        method: "GET",
+        responseHandler: (response) => response.blob(), // Treat the response as a Blob
+      }),
+    }),
+    confirmPayment: builder.mutation({
+      query: (orderId) => ({
+        url: `/order/confirm-payment/${orderId}`,
+        method: "POST",
+        // body: credentials,
+        headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Order", "OrderID"],
+    }),
+
+    confirmOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/order/${orderId}`,
+        method: "POST",
+        // body: credentials,
+        headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Order", "OrderID"],
+    }),
+
     getGoogleSignin: builder.query({
       query: () => "/google",
       // headers: { "Content-Type": "application/json" },
@@ -352,14 +559,29 @@ export const {
   useGetAllUserOrdersQuery,
   useGetUserOrderByIdQuery,
   useUpdateProfileMutation,
+  useToggleStockMutation,
+  useIsHotMutation,
+  useBestSellerMutation,
+  useDeleteCategoryMutation,
+
+  useDeleteProductMutation,
 
   useGetAllCategoryQuery,
   useGetCategoryByIdQuery,
   useLazySearchQuery,
 
   useGetAllProductQuery,
+  useLazyExportToCsvQuery,
 
   useGetProductByIdQuery,
+  useGetAllOrdersQuery,
+  useCreateProductMutation,
+  useEditProductMutation,
+  useConfirmPaymentMutation,
+  useConfirmOrderMutation,
+
+  useCreateCategoryMutation,
+  useEditCategoryMutation,
 
   useGetGoogleSigninQuery,
 } = productsApi;

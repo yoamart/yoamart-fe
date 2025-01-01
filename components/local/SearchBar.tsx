@@ -1,4 +1,5 @@
 // SearchBar.tsx
+"use client";
 import React, { useState, useEffect } from "react";
 import { Loader2, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -42,7 +43,7 @@ export default function SearchBar() {
     }
 
     return () => {
-      clearSearch(); // Clean up the timer when the component unmounts
+      clearSearch(); 
     };
   }, [searchTitle, debouncedSearch, clearSearch]);
 

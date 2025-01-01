@@ -1,18 +1,30 @@
 import Image from "next/image";
 import React from "react";
 
-export default function page() {
+export default function AboutUs() {
   return (
     <div className="text-gray-800">
       {/* <!-- Hero Section --> */}
-      <section className="relative min-h-[400px] md:h-[500px] bg-gray-300 w-full">
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center">
-          <h1 className="text-4xl md:text-6xl text-white font-bold uppercase">
-            About us
+      <section className="relative w-full  md:h-[300px] rounded-lg overflow-hidden shadow-lg">
+        {/* Background Image */}
+        <div className="relative">
+          <Image
+            src="/images/about.jpg"
+            alt="banner"
+            width={600}
+            height={230}
+            className="w-full h-[300px] object-cover rounded-lg filter brightness-75 blur-[0.2px] object-bottom"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        </div>
+
+        {/* Text Content */}
+        <div className="absolute top-1/2 transform -translate-y-1/2  text-center -translate-x-1/2 left-1/2">
+          {/* <p className="text-xs text-white tracking-wide uppercase">About Us</p> */}
+          <h2 className="text-lg font-medium text-white">About Us</h2>
+          <h1 className="text-2xl font-bold text-white">
+            We can do more for you!
           </h1>
-          <p className="text-lg md:text-2xl text-white mt-2">
-            We Can Do More For You
-          </p>
         </div>
       </section>
 
@@ -47,7 +59,7 @@ export default function page() {
             <Image
               width={400}
               height={600}
-              src="https://via.placeholder.com/400x600"
+              src="/images/about.jpg"
               alt="Placeholder"
               className="rounded-md shadow-md bg-gray-300 min-h-[300px]"
             />

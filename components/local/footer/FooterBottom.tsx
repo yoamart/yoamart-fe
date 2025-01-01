@@ -16,8 +16,13 @@ export default function FooterBottom() {
             <PhoneCall className="" />
           </div>
           <div>
-            <p className="text-xl font-semibold text-gray-800">8 800 555-55</p>
-            <p className="text-sm text-gray-500">Working 8:00 - 22:00</p>
+            <a
+              href="tel:+2348179752333"
+              className="text-xl font-semibold text-gray-800"
+            >
+              +2348179752333
+            </a>
+            {/* <p className="text-sm text-gray-500">Working 8:00 - 22:00</p> */}
           </div>
         </div>
 
@@ -28,10 +33,10 @@ export default function FooterBottom() {
             <FaFacebookF className="" />
           </div>
           <div className="w-8 h-8 rounded-full flex items-center justify-center border border-gray-200">
-            <FaXTwitter  className="" />
+            <FaXTwitter className="" />
           </div>
           <div className="w-8 h-8 rounded-full flex items-center justify-center border border-gray-200">
-            <FaInstagram  className="" />
+            <FaInstagram className="" />
           </div>
         </div>
       </div>
@@ -49,7 +54,10 @@ export default function FooterBottom() {
           >
             Privacy Policy
           </Link>
-          <Link href="/terms-and-conditions" className="text-gray-500 hover:text-gray-800">
+          <Link
+            href="/terms-and-conditions"
+            className="text-gray-500 hover:text-gray-800"
+          >
             Terms and Conditions
           </Link>
         </div>

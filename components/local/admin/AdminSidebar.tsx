@@ -1,131 +1,101 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, Bot, Settings2, SquareTerminal } from "lucide-react";
+import { BookOpen, SquareTerminal, LayoutDashboard, ChartBarStacked, ShoppingBasket } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavMain } from "./NavMain";
 import { NavUser } from "./NavUser";
 import Link from "next/link";
 import Image from "next/image";
-
-const data = {
-  user: {
-    name: "yoamart admin",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/types";
 
 export function AdminSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const session = useSelector((state: RootState) => state.auth.userData);
+
+  const data = {
+    user: {
+      name: "yoamart admin",
+      email: session?.email || "",
+      avatar: "/avatars/shadcn.jpg",
+    },
+
+    navMain: [
+      {
+        title: "Dashboard",
+        url: "/admin/dashboard",
+        icon: LayoutDashboard,
+        collapsible: false,
+      },
+      {
+        title: "Catalog",
+        url: "#",
+        icon: SquareTerminal,
+        isActive: true,
+        collapsible: true,
+
+        items: [
+          {
+            title: "Products",
+            url: "/admin/all-products",
+            icon: ShoppingBasket,
+          },
+
+          {
+            title: "Categories",
+            url: "/admin/all-categories",
+            icon: ChartBarStacked,
+          },
+        ],
+      },
+      {
+        title: "Orders",
+        url: "/admin/orders",
+        collapsible: false,
+        icon: BookOpen,
+      },
+      // {
+      //   title: "Customers",
+      //   url: "/admin/customers",
+      //   icon: Bot,
+      // },
+    ],
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      {/* <SidebarHeader></SidebarHeader> */}
-      <SidebarContent>
-        <Link href="/admin/dashboard" className="w-[164px] h-[30px] m-3">
+      <SidebarHeader className="flex items-center justify-center flex-row">
+        {" "}
+        <div className="flex aspect-square size-8 items-center justify-center rounded-lg  text-sidebar-primary-foreground">
+          {/* <SquareTerminal className="size-4" /> */}
           <Image
-            className="object-contain w-full h-full"
+            className="size-7"
+            width={164}
+            height={44}
+            src="/images/logo-icon.png"
+            alt="yoamart logo"
+          />
+        </div>
+        <Link href="/admin/dashboard" className="">
+          <Image
+            className="object-coover w-full h-full"
             width={164}
             height={44}
             src="/images/760--203YOA@3x.png"
             alt="yoamart logo"
           />
         </Link>
+      </SidebarHeader>
+      <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>

@@ -117,7 +117,12 @@ export default function Wishlist() {
                 </td>
                 <td className="p-2 md:p-4 border border-gray-200 hidden md:table-cell text-sm">
                   <td className="p-2 md:p-4 border border-gray-200 hidden md:table-cell text-sm">
-                    {new Date(item.createdAt).toLocaleDateString()}
+                    {item?.createdAt
+                      ? new Intl.DateTimeFormat("en-US", {
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        }).format(new Date(item?.createdAt))
+                      : "N/A"}{" "}
                   </td>{" "}
                 </td>
                 <td className="p-2 md:p-4 border border-gray-200">

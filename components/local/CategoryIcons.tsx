@@ -1,48 +1,58 @@
 import {
   FaAppleAlt,
-  FaBaby,
   FaBroom,
-  FaCogs,
   FaGlassMartiniAlt,
   FaRegSmile,
-  FaTshirt,
+  FaSchool,
   FaWrench,
 } from "react-icons/fa";
+import { MdElectricalServices } from "react-icons/md";
 
 export type CategoryNames =
-  | "Clothing"
-  | "Food & Groceries"
-  | "Beauty ,Health & personal care"
-  | "Home & Kitchen"
+  | "Grocery/Food Items"
+  | "Personal care items"
+  | "Household items"
   | "Drinks"
-  | "Baby & kids products"
-  | "Cleaning products "
+  | "Electrical Items"
+  | "School Items"
   | "Tools";
 
 export const categoryIcons: Record<CategoryNames, JSX.Element> = {
-  Clothing: (
-    <FaTshirt className="w-5 h-5 text-ysecondary group-hover:text-white" />
-  ),
-  "Food & Groceries": (
+  "Grocery/Food Items": (
     <FaAppleAlt className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
-  "Beauty ,Health & personal care": (
+  "Personal care items": (
     <FaRegSmile className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
-  "Home & Kitchen": (
-    <FaCogs className="w-5 h-5 text-ysecondary group-hover:text-white" />
+  "Household items": (
+    <FaBroom className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
   Drinks: (
     <FaGlassMartiniAlt className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
 
-  "Baby & kids products": (
-    <FaBaby className="w-5 h-5 text-ysecondary group-hover:text-white" />
+  "Electrical Items": (
+    <MdElectricalServices className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
-  "Cleaning products ": (
-    <FaBroom className="w-5 h-5 text-ysecondary group-hover:text-white" />
+  "School Items": (
+    <FaSchool className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
   Tools: (
     <FaWrench className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
+};
+
+export const categoryImages: Record<CategoryNames, string> = {
+  "Grocery/Food Items": "/images/1800--700food@2x.jpg",
+  "Personal care items": "/images/1800--700careitems@2x.jpg",
+  "Household items": "/images/1800--700householditems@2x.jpg",
+  Drinks: "/images/1800--700bannercategorydrinks@1,5x.jpg",
+  "Electrical Items": "/images/1800--700electricalitems@2x.jpg",
+  "School Items": "/images/1800--700schoolitems@2x.jpg",
+  Tools: "/images/1800--700tools@2x.jpg",
+};
+
+// Function to get the image for a category
+export const getCategoryImage = (category: CategoryNames): string => {
+  return categoryImages[category];
 };

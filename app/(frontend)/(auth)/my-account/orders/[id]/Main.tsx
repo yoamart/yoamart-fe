@@ -24,9 +24,7 @@ const Main = ({ orderId }: { orderId: string }) => {
     );
   }
   const order: Order = data.order;
-
-  //   console.log(data);
-
+  console.log(order);
   return (
     <div className=" px-2 md:px-10">
       {/* Order Header */}
@@ -35,9 +33,12 @@ const Main = ({ orderId }: { orderId: string }) => {
           Order <span className="font-semibold">#{order._id}</span> was placed
           on{" "}
           <span className="font-semibold">
-            {order?.orderDate
-              ? new Date(order.orderDate).toLocaleDateString()
-              : "N/A"}
+          {order?.createdAt
+                        ? new Intl.DateTimeFormat("en-US", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                          }).format(new Date(order?.createdAt))
+                        : "N/A"}
           </span>{" "}
           and is currently{" "}
           <span className="text-yellow-600">{order.orderStatus}</span>.
@@ -120,7 +121,9 @@ const Main = ({ orderId }: { orderId: string }) => {
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-4 font-semibold border-b border-gray-200">Note:</td>
+                <td className="py-2 px-4 font-semibold border-b border-gray-200">
+                  Note:
+                </td>
                 <td className="py-2 px-4 text-right">{order.note}</td>
               </tr>
 

@@ -38,9 +38,12 @@ export default function OrderDetails() {
                 </p>
                 <p className="text-sm text-gray-500">
                   <span className="font-semibold">Date:</span>{" "}
-                  {order?.orderDate
-                    ? new Date(order.orderDate).toLocaleDateString()
-                    : "N/A"}
+                  {order?.createdAt
+                        ? new Intl.DateTimeFormat("en-US", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                          }).format(new Date(order?.createdAt))
+                        : "N/A"}
                 </p>
                 <p className="text-sm text-gray-500">
                   Order Status:
@@ -63,8 +66,6 @@ export default function OrderDetails() {
                     className={`font-semibold ${
                       order.isPaid === "unpaid"
                         ? "text-red-500"
-                        : order.isPaid === "processing"
-                        ? "text-yellow-400"
                         : "text-green-500"
                     }`}
                   >

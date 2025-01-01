@@ -41,9 +41,12 @@ export default function Main({ orderId }: { orderId: string }) {
           <div className="flex justify-between">
             <span className="font-medium">Date:</span>
             <span className="font-bold">
-              {data?.orderDate
-                ? new Date(data.orderDate).toLocaleDateString()
-                : "N/A"}
+            {data?.orderDate
+                        ? new Intl.DateTimeFormat("en-US", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                          }).format(new Date(data?.orderDate))
+                        : "N/A"}
             </span>
           </div>
         </div>

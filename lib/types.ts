@@ -7,7 +7,8 @@ export interface Product {
     quantity: number;
     description: string;
     topSelling: number;
-    featured: "yes" | "no";
+    isFeatured: boolean;
+    isHot: boolean;
     discount: number;
     inStock: boolean;
     createdAt: string;
@@ -18,7 +19,7 @@ export interface Product {
 export interface CategorySp {
     _id: string;
     name: string;
-   
+
 }
 
 
@@ -27,6 +28,9 @@ export interface Category {
     _id: string;
     name: string;
     image: string;
+    price: number;
+    categoryId: CategorySp;
+    quantity: number;
     createdAt: string;
     updatedAt: string;
     __v: number;
@@ -45,6 +49,8 @@ export type CartItem = {
     description: string;
     topSelling: number;
     featured: "yes" | "no";
+    isFeatured: boolean;
+    isHot: boolean;
     discount: number;
     inStock: boolean;
     createdAt: string;
@@ -118,6 +124,7 @@ type Order = {
     updatedAt: string; // ISO string format
     __v: number;
 };
+
 
 type ApiResponse = {
     message: string;

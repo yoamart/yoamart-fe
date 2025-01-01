@@ -21,6 +21,7 @@ import { Category, Product } from "@/lib/types";
 import CustomLoader from "@/components/local/CustomLoader";
 import Filter from "./Filter";
 import { useSearchParams } from "next/navigation";
+import { CategoryNames, getCategoryImage } from "@/components/local/CategoryIcons";
 
 type SelectedRange = {
   min: number;
@@ -146,11 +147,6 @@ export default function Store() {
     setPage(page);
   };
 
-  // Compute the highest price
-  // const highestPrice = products.length
-  //   ? Math.ceil(Math.max(...products.map((product) => product.price)) / 5000) *
-  //     5000
-  //   : 20000;
   const highestPrice = 20000;
 
   const [range, setRange] = useState<[number, number]>([0, highestPrice]);
@@ -165,7 +161,6 @@ export default function Store() {
     setSort(value); // Update sort state directly
   };
 
-
   const [isLoadingData, setIsLoadingData] = useState(false);
 
   React.useEffect(() => {
@@ -173,7 +168,6 @@ export default function Store() {
     const timer = setTimeout(() => setIsLoadingData(false), 500); // Simulate a delay
     return () => clearTimeout(timer);
   }, [category, sort, min, max, inStock, outOfStock]);
-
 
   const {
     data: categories,
@@ -183,7 +177,69 @@ export default function Store() {
   // console.log(data && data);
   // Shuffle data and pick the first 9 categories
   const categoryData: Category[] = categories ? categories.category : [];
-  const isAnyLoading = isLoadingData ||isLoading || searchIsLoading || isLoadingCategories;
+  const isAnyLoading =
+    isLoadingData || isLoading || searchIsLoading || isLoadingCategories;
+
+  const getCategoryName = (id: string): string | undefined => {
+    const category = categoryData.find((cat) => cat._id === id);
+    return category?.name;
+  };
+
+  const getCategoryContent = (categoryName: string | undefined) => {
+    switch (categoryName) {
+      case "Grocery/Food Items":
+        return {
+          subTitle: "Fresh and Affordable",
+          title: "Get the Best Groceries",
+          highlight: "Shop Fresh, Eat Fresh",
+        };
+      case "Personal care items":
+        return {
+          subTitle: "Care for Yourself",
+          title: "Top Personal Care Products",
+          highlight: "Look Good, Feel Great",
+        };
+      case "Household items":
+        return {
+          subTitle: "Essentials for Your Home",
+          title: "Household Goods You Need",
+          highlight: "Make Your Home Shine",
+        };
+      case "Drinks":
+        return {
+          subTitle: "Refreshing and Delicious",
+          title: "Your Favorite Beverages",
+          highlight: "Drink, Chill, Repeat",
+        };
+      case "Electrical Items":
+        return {
+          subTitle: "Power Up Your Life",
+          title: "Top Electrical Products",
+          highlight: "Efficiency at Its Best",
+        };
+      case "School Items":
+        return {
+          subTitle: "Back to School",
+          title: "Supplies for Every Student",
+          highlight: "Learn and Grow",
+        };
+      case "Tools":
+        return {
+          subTitle: "Build with Confidence",
+          title: "Reliable Tools for All",
+          highlight: "Get the Job Done",
+        };
+      default:
+        return {
+          subTitle: "Discover Yoamart",
+          title: "All Your Favorite Products in One Place",
+          highlight: "Shop, Save, Repeat",
+        };
+    }
+  };
+
+  const categoryName = getCategoryName(category[0]); // Assuming category is an array of IDs
+  const content = getCategoryContent(categoryName);
 
   return (
     <div className="px-2 lg:px-10 flex gap-5 w-full">
@@ -203,29 +259,34 @@ export default function Store() {
 
       {/* Main Section */}
       <div className="w-full md:w-[calc(100vw-320px)] flex flex-col gap-5">
-        <section className="relative w-full hidden md:block h-[230px] rounded-lg overflow-hidden shadow-lg">
+        <section className="relative w-full  md:h-[230px] rounded-lg overflow-hidden shadow-lg">
           {/* Background Image */}
           <div className="relative">
             <Image
-              src="/images/store.jpg"
+              src={
+                category.length === 1
+                  ? getCategoryImage(
+                      (getCategoryName(category[0]) ||
+                        "Grocery/Food Items") as CategoryNames
+                    )
+                  : "/images/store.jpg"
+              }
               alt="banner"
               width={600}
               height={230}
-              className="w-full h-full object-cover rounded-lg filter brightness-75 blur-[0.2px] "
+              className="w-full h-full object-cover rounded-lg filter brightness-75 blur-[0.1px] "
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
           </div>
 
           {/* Text Content */}
           <div className="absolute top-1/2 transform -translate-y-1/2  text-center -translate-x-1/2 left-1/2">
             <p className="text-xs text-white tracking-wide uppercase">
-              Discover Yoamart
+              {content.subTitle}
             </p>
-            <h2 className="text-lg font-medium text-white">
-              All Your Favorite Products in One Place
-            </h2>
+            <h2 className="text-lg font-medium text-white">{content.title}</h2>
             <h1 className="text-2xl font-bold text-white">
-              Shop, Save, Repeat
+              {content.highlight}
             </h1>
           </div>
         </section>

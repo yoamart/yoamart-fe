@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import Recaptcha from "./Recaptcha";
 import { useCaptcha } from "@/hooks/use-captcha";
+import { useCreateContactMutation } from "@/redux/appData";
+import { Loader2 } from "lucide-react";
 
 // Define the validation schema using zod
 const contactSchema = z.object({
@@ -29,6 +31,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export default function ContactForm() {
   const [globalError, setGlobalError] = useState<string>("");
   const { captchaRef, getCaptchaToken, resetCaptcha } = useCaptcha();
+  const [createContact, { isLoading }] = useCreateContactMutation();
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -54,13 +57,19 @@ export default function ContactForm() {
         ...values, // This will include email and password from the form
         captcha, // Add CAPTCHA token
       };
-      console.log(credentials);
+      // console.log(credentials);
 
-      //   await contact(credentials);
-
-      toast.success("Message sent successfully!", {
-        position: "top-center",
-      });
+      const result = await createContact(credentials);
+      if (result?.data) {
+        toast.success("Message sent successfully!", {
+          position: "top-center",
+        });
+      } else {
+        setGlobalError("An unexpected error occurred. Please try again.");
+        toast.error("An unexpected error occurred.", {
+          position: "top-center",
+        });
+      }
 
       // Reset the form after successful submission
       form.reset();
@@ -156,10 +165,25 @@ export default function ContactForm() {
 
           <Recaptcha captchaRef={captchaRef} />
 
-          <div className="w-full">
-            <Button className="w-full bg-ysecondary text-white py-3 rounded-md hover:bg-ysecondary/50 focus:outline-none focus:ring focus:ring-blue-200">
-              Send Message
-            </Button>
+          <div className="w-full mt-4">
+            {isLoading ? (
+              <Button
+                disabled
+                className="bg-ysecondary hover:bg-ysecondary/80 flex items-center justify-center gap-1 w-full"
+                type="submit"
+              >
+                <span>Please wait</span>
+                <Loader2 className="animate-spin" />
+              </Button>
+            ) : (
+              <Button
+                className="bg-ysecondary hover:bg-ysecondary/80 w-full"
+                type="submit"
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Send Message
+              </Button>
+            )}
           </div>
         </form>
       </Form>

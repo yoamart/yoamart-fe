@@ -17,6 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "sonner";
+import { useCreateNewsletterMutation } from "@/redux/appData";
 // import { toast } from "sonner";
 
 // Zod schema for validating the email field
@@ -39,7 +41,8 @@ export default function NewsLetter() {
     },
   });
 
-  const isLoading = false;
+  const [createNewsletter, { isLoading, isSuccess, error, isError }] =
+    useCreateNewsletterMutation();
 
   const onSubmit = async (values: z.infer<typeof newsletterSchema>) => {
     setGlobalError("");
@@ -56,7 +59,8 @@ export default function NewsLetter() {
         captcha,
       };
 
-      console.log(credentials);
+      await createNewsletter(credentials);
+      // console.log(result);
     } catch (error) {
       // toast.error("An unexpected error occurred.");
       setGlobalError("An unexpected error occurred.");
@@ -64,30 +68,27 @@ export default function NewsLetter() {
     }
   };
 
-  // React.useEffect(() => {
-  //   if (isSuccess) {
-  //     toast.success("Subscription successful.", {
-  //       position: "top-center",
-  //     });
-  //   } else if (isError) {
-  //     if (
-  //       "data" in error &&
-  //       typeof error.data === "object"
-  //     ) {
-  //       const errorMessage = (error.data as { message?: string })
-  //         ?.message;
-  //       setGlobalError(errorMessage || "Failed to subscribe.");
-  //       toast.error(errorMessage || "Failed to subscribe.", {
-  //         position: "top-center",
-  //       });
-  //     } else {
-  //       setGlobalError("An unexpected error occurred.");
-  //       toast.error("An unexpected error occurred.", {
-  //         position: "top-center",
-  //       });
-  //     }
-  //   }
-  // }, [isSuccess, isError, error]);
+  React.useEffect(() => {
+    if (isSuccess) {
+      toast.success("Subscription successful.", {
+        position: "top-center",
+      });
+      form.reset();
+    } else if (isError) {
+      if ("data" in error && typeof error.data === "object") {
+        const errorMessage = (error.data as { message?: string })?.message;
+        setGlobalError(errorMessage || "Failed to subscribe.");
+        toast.error(errorMessage || "Failed to subscribe.", {
+          position: "top-center",
+        });
+      } else {
+        setGlobalError("An unexpected error occurred.");
+        toast.error("An unexpected error occurred.", {
+          position: "top-center",
+        });
+      }
+    }
+  }, [isSuccess, isError, form, error]);
 
   return (
     <div className="bg-ysecondary text-white pt-10 px-5 md:px-10 flex flex-col md:flex-row gap-10 relative">

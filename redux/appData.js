@@ -549,11 +549,47 @@ export const productsApi = createApi({
       headers: { "Content-Type": "application/json" },
     }),
 
+
+    createContact: builder.mutation({
+      query: (credentials) => ({
+        url: `/contact/create-contact`,
+        method: "POST",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+    }),
+
+    createNewsletter: builder.mutation({
+      query: (credentials) => ({
+        url: `/newsletter/create-newsletter`,
+        method: "POST",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+    }),
+
+
     getGoogleSignin: builder.query({
       query: () => "/google",
       // headers: { "Content-Type": "application/json" },
     }),
   }),
+
+
 });
 
 export const {
@@ -594,6 +630,8 @@ export const {
   useEditCategoryMutation,
   useGetChartQuery,
   useGetSummaryQuery,
+  useCreateContactMutation,
+  useCreateNewsletterMutation,
 
   useGetGoogleSigninQuery,
 } = productsApi;

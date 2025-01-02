@@ -46,7 +46,7 @@ export default function AllCategories() {
       {isAnyLoading ? (
         <CustomLoader />
       ) : (
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full bg-white rounded-lg shadow-md p-3">
           <Table>
             <TableCaption>A list of all your categories.</TableCaption>
             <TableHeader>

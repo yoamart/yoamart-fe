@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import React from "react";
 
@@ -5,7 +6,7 @@ export default function AboutUs() {
   return (
     <div className="text-gray-800">
       {/* <!-- Hero Section --> */}
-      <section className="relative w-full  md:h-[300px] rounded-lg overflow-hidden shadow-lg">
+      <section className="relative w-full md:h-[300px] rounded-lg overflow-hidden shadow-lg">
         {/* Background Image */}
         <div className="relative">
           <Image
@@ -19,42 +20,40 @@ export default function AboutUs() {
         </div>
 
         {/* Text Content */}
-        <div className="absolute top-1/2 transform -translate-y-1/2  text-center -translate-x-1/2 left-1/2">
-          {/* <p className="text-xs text-white tracking-wide uppercase">About Us</p> */}
+        <div className="absolute top-1/2 transform -translate-y-1/2 text-center -translate-x-1/2 left-1/2">
           <h2 className="text-lg font-medium text-white">About Us</h2>
-          <h1 className="text-2xl font-bold text-white">
-            We can do more for you!
-          </h1>
+          <h1 className="text-2xl font-bold text-white">Welcome to Yoamart!</h1>
         </div>
       </section>
 
       {/* <!-- Content Section --> */}
-      <div className=" px-2 md:px-10 py-10 space-y-10">
+      <div className="px-2 md:px-10 py-10 space-y-10">
         <p className="text-lg leading-7">
-          In nec purus eget neque accumsan finibus. Duis condimentum elit ut
-          libero commodo iaculis. Donec augue diam, tristique et ultricies nec,
-          consectetur quis enim. Nullam id rutrum ex. Aliquam a lectus id lacus
-          rhoncus dapibus non ac justo. Vivamus lacinia vestibulum metus in
-          dapibus. Vestibulum sit amet sollicitudin enim. Ut id interdum turpis.
-          Curabitur porta auctor quam, pretium facilisis nisl. Pellentesque
-          efficitur elit ante, vel vulputate tortor blandit nec.
+          At Yoamart, we believe in making online shopping easy, accessible, and
+          enjoyable for everyone. Our mission is to provide a diverse range of
+          high-quality products, tailored to suit the unique needs and
+          preferences of our customers. We pride ourselves on offering top-notch
+          customer service, fast shipping, and a secure shopping experience.
         </p>
-
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-          Quisque erat urna, congue et libero in eleifend euismod velit.
+          Our Story
         </h2>
         <p className="text-lg leading-7">
-          In nec purus eget neque accumsan finibus. Duis condimentum elit ut
-          libero commodo iaculis. Donec augue diam, tristique et ultricies nec,
-          consectetur quis enim. Nullam id rutrum ex. Aliquam a lectus id lacus
-          rhoncus dapibus non ac justo. Vivamus lacinia vestibulum metus in
-          dapibus. Vestibulum sit amet sollicitudin enim. Ut id interdum turpis.
-          Curabitur porta auctor quam, pretium facilisis nisl. Pellentesque
-          efficitur elit ante, vel vulputate tortor blandit nec.
+          Yoamart was founded with the goal of creating a marketplace that
+          connects customers with the best products from around the world. We
+          started as a small e-commerce platform but quickly grew to meet the
+          needs of our growing customer base. Our team is passionate about
+          curating a wide selection of items, from fashion and electronics to
+          home essentials and beauty products, all in one convenient place.
+        </p>
+        <p className="text-lg leading-7">
+          What started as a passion for bringing the best products to the market
+          has grown into a thriving online destination for shoppers who value
+          quality and convenience.
         </p>
 
         {/* <!-- Image and Text Section --> */}
-        <div className="md:flex md:space-x-8">
+        <div className="md:flex md:space-x-8 items-center">
           <div className="md:w-1/3">
             <Image
               width={400}
@@ -65,41 +64,51 @@ export default function AboutUs() {
             />
           </div>
           <div className="md:w-2/3 mt-6 md:mt-0 space-y-4">
-            <p className="text-lg font-semibold">Rachel Leonard - Bacola CEO</p>
-            <h3 className="text-xl font-bold text-gray-900">
-              Duis convallis luctus pretium. Pellentesque habitant morbi
-            </h3>
+            {/* <p className="text-lg font-semibold">Rachel Leonard - Bacola CEO</p> */}
+            <h3 className="text-xl font-bold text-gray-900">Our Vision</h3>
             <p className="text-lg leading-7">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-              ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas
-              accumsan lacus vel facilisis.
-            </p>
-            <p className="text-lg leading-7">
-              In fermentum mi et sapien semper, a sagittis lorem vulputate.
-              Integer gravida, dui eget aliquet tempus, turpis orci vehicula
-              ipsum, eget porttitor sapien tortor at neque. Cras id pulvinar
-              lacus, volutpat augue.
+              Our vision is to be the go-to online retailer for people who value
+              exceptional products and outstanding customer service. Whether
+              you&apos;re shopping for the latest tech gadgets, trendy fashion
+              pieces, or unique home decor, Yoamart aims to offer an extensive
+              and diverse selection that suits every style and budget.
             </p>
           </div>
         </div>
-
+        <h3 className="text-xl font-bold text-gray-900">Why Choose Yoamart?</h3>
+        <ul className="list-disc list-inside space-y-2 text-lg leading-7">
+          <li>
+            <strong>Quality Products:</strong> We partner with trusted suppliers
+            and brands to bring you top-quality products at competitive prices.
+          </li>
+          <li>
+            <strong>Customer-Centric Service:</strong> Our customer support team
+            is dedicated to ensuring your shopping experience is smooth and
+            hassle-free.
+          </li>
+          <li>
+            <strong>Fast and Reliable Shipping:</strong> We offer fast shipping
+            options to ensure your orders reach you as quickly as possible.
+          </li>
+          <li>
+            <strong>Secure Shopping Experience:</strong> We use the latest
+            encryption technology to ensure your personal information and
+            payment details are always secure.
+          </li>
+        </ul>
         <p className="text-lg leading-7">
-          In nec purus eget neque accumsan finibus. Duis condimentum elit ut
-          libero commodo iaculis. Donec augue diam, tristique et ultricies nec,
-          consectetur quis enim. Nullam id rutrum ex. Aliquam a lectus id lacus
-          rhoncus dapibus non ac justo. Vivamus lacinia vestibulum metus in
-          dapibus. Vestibulum sit amet sollicitudin enim. Ut id interdum turpis.
-          Curabitur porta auctor quam, pretium facilisis nisl. Pellentesque
-          efficitur elit ante, vel vulputate tortor blandit nec.
+          At Yoamart, we are committed to offering an inclusive shopping
+          experience that caters to a wide range of needs and preferences. We
+          are constantly updating our inventory, expanding our product
+          offerings, and improving our services to ensure we meet the demands of
+          our customers. Your satisfaction is our top priority, and we will
+          continue to work hard to provide you with the best possible shopping
+          experience.
+        </p>
+        <p className="text-lg leading-7">
+          Thank you for choosing Yoamart. We look forward to serving you!
         </p>
       </div>
-
-      {/* <div className="fixed bottom-4 right-4">
-    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" className="p-3 bg-gray-900 text-white rounded-full shadow-md hover:bg-gray-700">
-      ↑
-    </button>
-  </div> */}
     </div>
   );
 }

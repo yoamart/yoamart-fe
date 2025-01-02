@@ -231,6 +231,7 @@ export const productsApi = createApi({
           console.error("Register failed:", err);
         }
       },
+      invalidatesTags: ["Order", "OrderID"],
     }),
 
     getAllUserOrders: builder.query({
@@ -406,7 +407,7 @@ export const productsApi = createApi({
           // console.log("registered");
           await queryFulfilled;
         } catch (err) {
-          // console.error("category delete failed:", err);
+          console.error("category delete failed:", err);
         }
       },
       invalidatesTags: ["Product"],
@@ -424,7 +425,7 @@ export const productsApi = createApi({
           // console.log("registered");
           await queryFulfilled;
         } catch (err) {
-          // console.error("category delete failed:", err);
+          console.error("category delete failed:", err);
         }
       },
       invalidatesTags: ["Category"],
@@ -538,6 +539,15 @@ export const productsApi = createApi({
       },
       invalidatesTags: ["Order", "OrderID"],
     }),
+    getChart: builder.query({
+      query: () => "/order/stats/chart",
+      headers: { "Content-Type": "application/json" },
+    }),
+
+    getSummary: builder.query({
+      query: () => "/order/stats/summary",
+      headers: { "Content-Type": "application/json" },
+    }),
 
     getGoogleSignin: builder.query({
       query: () => "/google",
@@ -582,6 +592,8 @@ export const {
 
   useCreateCategoryMutation,
   useEditCategoryMutation,
+  useGetChartQuery,
+  useGetSummaryQuery,
 
   useGetGoogleSigninQuery,
 } = productsApi;

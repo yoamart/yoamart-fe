@@ -1,7 +1,7 @@
 import CustomLoader from "@/components/local/CustomLoader";
 import { MobileFilterSidebarProps } from "@/components/local/MobileFilterSidebar";
 import MultiRangeSlider from "@/components/local/PriceRange/MultiRangeSlider";
-import Image from "next/image";
+// import Image from "next/image";
 import React from "react";
 
 export default function Filter({
@@ -82,7 +82,7 @@ export default function Filter({
           </div>
         </div>
       </div>
-      <div className="">
+      {/* <div className="">
         <Image
           src="/images/sidebar-banner.gif"
           alt="banner"
@@ -90,7 +90,7 @@ export default function Filter({
           height={230}
           className="w-full h-full object-cover  "
         />{" "}
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -204,7 +204,7 @@ function ProductDialog({ data }: { data: Product }) {
       </DialogTrigger>
       <DialogContent className="">
         <DialogHeader>
-          <DialogTitle></DialogTitle>
+          <DialogTitle>.</DialogTitle>{" "}
           {/* <DialogDescription>
             Make changes to your profile here. Click save when you&apos;re done.
           </DialogDescription> */}

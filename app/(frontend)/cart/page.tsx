@@ -95,7 +95,7 @@ export default function Cart() {
                         {new Intl.NumberFormat("en-NG", {
                           style: "currency",
                           currency: "NGN",
-                        }).format(item.price * item.quantity)}
+                        }).format(item.price * item.cartQuantity)}
                       </td>
                       <td className="p-2 md:table-cell hidden">
                         <MdCancel

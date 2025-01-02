@@ -3,15 +3,18 @@ import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { clearCredentials } from "@/redux/slices/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { Separator } from "@/components/ui/separator";
+import { RootState } from "@/lib/types";
 
 export default function UserLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = useSelector((state: RootState) => state.auth.isAuthenticated);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -43,7 +46,7 @@ export default function UserLayout({
   return (
     <div>
       {/* Only render the navbar if we're not on the lost-password or change-password pages */}
-      {!hideNavbar && (
+      {session && !hideNavbar && (
         <div className="px-2 md:px-10">
           <div className="flex items-center justify-between py-4 border-b mb-6 bg-[#c2c3c7] md:hidden px-2">
             {/* Logo or title */}

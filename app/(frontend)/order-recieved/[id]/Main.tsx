@@ -26,7 +26,7 @@ export default function Main({ orderId }: { orderId: string }) {
     <div className="px-2 md:px-10 my-10">
       {/* Success Message */}
       <div className="text-center border-b pb-4 mb-6">
-        <h2 className="text-2xl font-semibold text-green-600 border p-3">
+        <h2 className="font-dosis text-2xl font-semibold text-green-600 border p-3">
           Thank you. Your order has been received.
         </h2>
       </div>
@@ -41,12 +41,12 @@ export default function Main({ orderId }: { orderId: string }) {
           <div className="flex justify-between">
             <span className="font-medium">Date:</span>
             <span className="font-bold">
-            {data?.orderDate
-                        ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                            timeStyle: "short",
-                          }).format(new Date(data?.orderDate))
-                        : "N/A"}
+              {data?.orderDate || data?.createdAt
+                ? new Intl.DateTimeFormat("en-US", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  }).format(new Date(data?.orderDate || data?.createdAt))
+                : "N/A"}
             </span>
           </div>
         </div>
@@ -68,8 +68,8 @@ export default function Main({ orderId }: { orderId: string }) {
       </div>
 
       {/* Order Details */}
-      <div className="border-t pt-6">
-        <h3 className="text-lg font-semibold mb-4">Order Details</h3>
+      <div className="border pt-6">
+        <h3 className="text-lg font-bold mb-4 p-3 font-dosis">Order Details</h3>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>
@@ -94,7 +94,7 @@ export default function Main({ orderId }: { orderId: string }) {
                 </tr>
               ))}
 
-              <tr>
+              <tr className="border-b">
                 <td className="px-4 py-2 font-medium">Subtotal:</td>
                 <td className="px-4 py-2">
                   {new Intl.NumberFormat("en-NG", {
@@ -107,11 +107,11 @@ export default function Main({ orderId }: { orderId: string }) {
                 <td className="px-4 py-2 font-medium">Shipping:</td>
                 <td className="px-4 py-2">Local pickup</td>
               </tr> */}
-              <tr>
+              <tr className="border-b">
                 <td className="px-4 py-2 font-medium">Payment method:</td>
                 <td className="px-4 py-2">Direct bank transfer</td>
               </tr>
-              <tr>
+              <tr className="border-b">
                 <td className="px-4 py-2 font-medium">Total:</td>
                 <td className="px-4 py-2">
                   {new Intl.NumberFormat("en-NG", {
@@ -132,7 +132,7 @@ export default function Main({ orderId }: { orderId: string }) {
       {/* Addresses */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         {/* Billing Address */}
-        <div className="bg-white shadow-sm rounded-md p-6">
+        <div className="bg-white shadow-sm rounded-md p-6 border">
           <h3 className="text-lg font-semibold mb-4">Billing Address</h3>
           <p>{session?.name}</p>
           <p className="">{session?.address}</p>
@@ -141,7 +141,7 @@ export default function Main({ orderId }: { orderId: string }) {
         </div>
 
         {/* Shipping Address */}
-        <div className="bg-white shadow-sm rounded-md p-6">
+        <div className="bg-white shadow-sm rounded-md p-6 border">
           <h3 className="text-lg font-semibold mb-4">Shipping Address</h3>
           <p>{data?.name}</p>
           <p className="">{data?.address}</p>

@@ -113,8 +113,10 @@ export async function middleware(request: NextRequest) {
 
     // Redirect to "/my-account" for admin paths if no token
     if (!token && isAdmin) {
-
-        return NextResponse.redirect(new URL("/my-account", request.url));
+        const url = new URL("/my-account", request.url);
+        url.searchParams.set("redirect", request.nextUrl.pathname); // Store the original path as 'redirect'
+        return NextResponse.redirect(url);
+        // return NextResponse.redirect(new URL("/my-account", request.url));
     }
 
     // Verify admin access for admin paths
@@ -127,6 +129,7 @@ export async function middleware(request: NextRequest) {
             }
         } catch (error) {
             // Handle invalid token decoding
+            console.error("Invalid token decoding:", error);
             return NextResponse.redirect(new URL("/my-account", request.url));
         }
     }

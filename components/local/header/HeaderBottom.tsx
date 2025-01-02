@@ -14,6 +14,18 @@ export default function HeaderBottom() {
   // const isHome = pathname === "/";
   const [showCategories, setShowCategories] = useState<boolean>(false);
 
+  const handleMouseEnter = () => {
+    // if (window.innerWidth >= 768) {
+    // Trigger only for larger screens
+    setShowCategories(true);
+    // }
+  };
+
+  const handleMouseLeave = () => {
+    // Trigger only for larger screens
+    setShowCategories(false);
+  };
+
   const { data } = useGetAllCategoryQuery(undefined);
   const category: Category[] = data ? data.category : [];
 
@@ -21,11 +33,12 @@ export default function HeaderBottom() {
 
   return (
     <div className="hidden lg:flex items-center">
-      <div className="relative z-10">
-        <Button
-          onClick={() => setShowCategories(!showCategories)}
-          className="bg-ysecondary text-white flex items-center gap-2 p-6 hover:bg-ysecondary rounded-[30px]"
-        >
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="relative z-10"
+      >
+        <Button className="bg-ysecondary text-white flex items-center gap-2 p-6 hover:bg-ysecondary rounded-[30px]">
           <Menu className="w-5 h-5" />
           <p className="text-[16px] font-semibold font-dosis uppercase">
             All Categories
@@ -56,7 +69,11 @@ export default function HeaderBottom() {
           //   </ul>
           // </div>
 
-          <div className="rounded-lg absolute top-full mt-2 left-0 w-[270px] py-4 px-6 bg-white border border-gray-300 shadow-lg shadow-gray-200 z-10">
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="rounded-lg absolute top-full mt-2 left-0 w-[270px] py-4 px-6 bg-white border border-gray-300 shadow-lg shadow-gray-200 z-10"
+          >
             <ul className="space-y-2">
               {category.slice(0, 9).map((categories, index) => (
                 <li key={index}>

@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, SquareTerminal, LayoutDashboard, ChartBarStacked, ShoppingBasket } from "lucide-react";
+import {
+  BookOpen,
+  SquareTerminal,
+  LayoutDashboard,
+  ChartBarStacked,
+  ShoppingBasket,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -24,7 +30,7 @@ export function AdminSidebar({
 
   const data = {
     user: {
-      name: "yoamart admin",
+      name: session?.name || "yoamart admin",
       email: session?.email || "",
       avatar: "/avatars/shadcn.jpg",
     },

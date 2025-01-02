@@ -10,20 +10,22 @@ import { RootState } from "@/lib/types";
 export default function MyAccount() {
   const session = useSelector((state: RootState) => state.auth.isAuthenticated);
   // console.log("session", session);
+  const userData = useSelector((state: RootState) => state.auth.userData);
+
 
   const searchParams = new URLSearchParams(window.location.search);
   const redirect = searchParams.get("redirect");
 
   React.useEffect(() => {
-    if (redirect) {
+    if (session && redirect) {
       window.location.href = redirect;
     }
-  }, [redirect]);
+  }, [redirect, session]);
 
   return (
     <>
       {session ? (
-        <Dashboard />
+        <Dashboard session={userData} />
       ) : (
         <div className="md:min-h-[50vh] flex justify-center items-center my-10">
           <Tabs

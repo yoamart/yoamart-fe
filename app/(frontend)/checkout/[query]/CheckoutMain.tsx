@@ -45,7 +45,6 @@ export default function CheckoutMain({ orderId }: { orderId: string }) {
 
   const order: Order = data?.order;
 
-
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
@@ -97,8 +96,14 @@ export default function CheckoutMain({ orderId }: { orderId: string }) {
         orderId,
       });
       // console.log(result);
-      toast.success("order placed successfully");
-      router.push(`/order-recieved/${result?.data?.order?._id}`);
+      if (result?.data) {
+        toast.success("order placed successfully");
+
+        router.push(`/order-recieved/${result?.data?.order?._id}`);
+      } else {
+        toast.error("An unexpected error occurred.");
+        setGlobalError("An unexpected error occurred.");
+      }
     } catch (error) {
       // toast.error("An unexpected error occurred.");
       setGlobalError("An unexpected error occurred.");

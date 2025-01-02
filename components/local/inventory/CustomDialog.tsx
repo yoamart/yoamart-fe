@@ -33,7 +33,7 @@ export function CustomDialog({
           title === "delete" ? "sm:max-w-[400px]" : "max-w-[600px]"
         }`}
       >
-        <DialogTitle></DialogTitle>
+        <DialogTitle>{type + " " + title}</DialogTitle>
         {title === "product" && (type === "edit" || type === "add") && (
           <AddEditProduct onClose={onOpenChange} data={data} type={type} />
         )}

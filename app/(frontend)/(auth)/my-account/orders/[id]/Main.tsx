@@ -140,7 +140,7 @@ const Main = ({ orderId }: { orderId: string }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Billing Address */}
         <div className="bg-white shadow-sm rounded-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Billing Address</h3>
+          <h3 className="text-lg font-semibold mb-4">Billing Details</h3>
           <p>{session?.name}</p>
           <p className="">{session?.address}</p>
           <p>{session?.phone}</p>
@@ -149,7 +149,7 @@ const Main = ({ orderId }: { orderId: string }) => {
 
         {/* Shipping Address */}
         <div className="bg-white shadow-sm rounded-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Shipping Address</h3>
+          <h3 className="text-lg font-semibold mb-4">Shipping Details</h3>
           <p>{order?.name}</p>
           <p className="">{order?.address}</p>
           <p>{order?.mobile}</p>

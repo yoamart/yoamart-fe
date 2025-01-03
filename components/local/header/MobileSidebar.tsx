@@ -21,8 +21,9 @@ import { Separator } from "@/components/ui/separator";
 import React from "react";
 import { useGetAllCategoryQuery } from "@/redux/appData";
 import { shuffleArray } from "@/hooks/shuffle";
-import { Category } from "@/lib/types";
+import { Category, RootState } from "@/lib/types";
 import { categoryIcons, CategoryNames } from "../CategoryIcons";
+import { useSelector } from "react-redux";
 
 export function MobileSidebar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -30,6 +31,8 @@ export function MobileSidebar() {
   const { data } = useGetAllCategoryQuery(undefined);
   const category: Category[] = data ? data.category : [];
   const shuffledData: Category[] = shuffleArray([...category]);
+  const session = useSelector((state: RootState) => state.auth.userData);
+
 
   return (
     <Sheet>
@@ -67,15 +70,17 @@ export function MobileSidebar() {
                 <ul className="space-y-6 mt-5">
                   {category.map((categories, index) => (
                     <li key={index}>
-                      <Link
-                        href={`/store/?category=${categories?._id}`}
-                        className="flex items-center gap-3 text-[#3e445a] hover:text-ysecondary"
-                      >
-                        {categoryIcons[categories?.name as CategoryNames] || (
-                          <Box className="w-5 h-5 text-ysecondary group-hover:text-white" />
-                        )}{" "}
-                        <p className="text-sm">{categories?.name}</p>
-                      </Link>
+                      <SheetClose asChild>
+                        <Link
+                          href={`/store/?category=${categories?._id}`}
+                          className="flex items-center gap-3 text-[#3e445a] hover:text-ysecondary"
+                        >
+                          {categoryIcons[categories?.name as CategoryNames] || (
+                            <Box className="w-5 h-5 text-ysecondary group-hover:text-white" />
+                          )}{" "}
+                          <p className="text-sm">{categories?.name}</p>
+                        </Link>
+                      </SheetClose>
                     </li>
                   ))}
                 </ul>
@@ -138,6 +143,18 @@ export function MobileSidebar() {
               </SheetClose>
             </li>
             <Separator className="" />
+            {session && session?.role === "admin" && (
+              <>
+                <li className="py-3">
+                  <SheetClose asChild>
+                    <Link href={"/admin/dashboard"} className="">
+                      Admin
+                    </Link>
+                  </SheetClose>
+                </li>
+                <Separator className="" />
+              </>
+            )}
           </ul>
         </div>
       </SheetContent>

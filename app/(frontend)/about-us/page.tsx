@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import React from "react";
 
@@ -21,8 +20,12 @@ export default function AboutUs() {
 
         {/* Text Content */}
         <div className="absolute top-1/3 transform -translate-y-1/3 text-center -translate-x-1/2 left-1/2">
-        <h2 className="text-lg md:text-[30px] font-medium text-white mb-2">About Us</h2>
-          <h1 className="text-2xl md:text-[40px] font-bold text-white">Welcome to Yoamart!</h1>
+          <h2 className="text-lg md:text-[30px] font-medium text-white mb-2">
+            About Us
+          </h2>
+          <h1 className="text-xl md:text-[40px] font-bold text-white">
+            Welcome to Yoamart!
+          </h1>
         </div>
       </section>
 

@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   ChartBarStacked,
   ShoppingBasket,
+  UserRoundPlus,
 } from "lucide-react";
 
 import {
@@ -27,7 +28,7 @@ export function AdminSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const session = useSelector((state: RootState) => state.auth.userData);
-
+  // const superAdmin = session?.email === "yoasupermarket@gmail.com";
   const data = {
     user: {
       name: session?.name || "yoamart admin",
@@ -74,6 +75,24 @@ export function AdminSidebar({
       //   url: "/admin/customers",
       //   icon: Bot,
       // },
+
+      // ...(superAdmin
+      //   ? [
+      //       {
+      //         title: "Create Admin",
+      //         url: "/admin/create-admin",
+      //         collapsible: false,
+      //         icon: UserRoundPlus,
+      //       },
+      //     ]
+      //   : []),
+
+      {
+        title: "Create Admin",
+        url: "/admin/create-admin",
+        collapsible: false,
+        icon: UserRoundPlus,
+      },
     ],
   };
 

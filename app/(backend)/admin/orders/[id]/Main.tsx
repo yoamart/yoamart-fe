@@ -1,7 +1,7 @@
 "use client";
 import CustomLoader from "@/components/local/CustomLoader";
 import { Button } from "@/components/ui/button";
-import { Order, RootState } from "@/lib/types";
+import { Order } from "@/lib/types";
 import {
   useConfirmOrderMutation,
   useConfirmPaymentMutation,
@@ -12,13 +12,13 @@ import {  Check, Loader } from "lucide-react";
 import Image from "next/image";
 // import { notFound, useRouter } from "next/navigation";
 import React from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 type ErrorResponse = { data: { message: string } };
 
 const Main = ({ orderId }: { orderId: string }) => {
-  const session = useSelector((state: RootState) => state.auth.userData);
+  // const session = useSelector((state: RootState) => state.auth.userData);
   // const router = useRouter();
   const { data, isLoading, error } = useGetUserOrderByIdQuery(orderId);
 
@@ -231,17 +231,17 @@ const Main = ({ orderId }: { orderId: string }) => {
       {/* Addresses */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Billing Address */}
-        <div className="bg-white shadow-sm rounded-md p-6">
+        {/* <div className="bg-white shadow-sm rounded-md p-6">
           <h3 className="text-lg font-semibold mb-4">Billing Address</h3>
           <p>{session?.name}</p>
           <p className="">{session?.address}</p>
           <p>{session?.phone}</p>
           <p>{session?.email}</p>
-        </div>
+        </div> */}
 
         {/* Shipping Address */}
         <div className="bg-white shadow-sm rounded-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Shipping Address</h3>
+          <h3 className="text-lg font-semibold mb-4">Shipping Details</h3>
           <p>{order?.name}</p>
           <p className="">{order?.address}</p>
           <p>{order?.mobile}</p>

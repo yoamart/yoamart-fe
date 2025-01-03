@@ -582,6 +582,22 @@ export const productsApi = createApi({
       },
     }),
 
+    createAdmin: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/create-admin",
+        method: "POST",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+    }),
+
 
     getGoogleSignin: builder.query({
       query: () => "/google",
@@ -632,6 +648,7 @@ export const {
   useGetSummaryQuery,
   useCreateContactMutation,
   useCreateNewsletterMutation,
+  useCreateAdminMutation,
 
   useGetGoogleSigninQuery,
 } = productsApi;

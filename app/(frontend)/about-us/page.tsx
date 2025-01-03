@@ -6,23 +6,23 @@ export default function AboutUs() {
   return (
     <div className="text-gray-800">
       {/* <!-- Hero Section --> */}
-      <section className="relative w-full md:h-[300px] rounded-lg overflow-hidden shadow-lg">
+      <section className="relative w-full md:h-[350px] rounded-lg overflow-hidden shadow-lg">
         {/* Background Image */}
         <div className="relative">
           <Image
-            src="/images/about.jpg"
+            src="/images/about-us.jpg"
             alt="banner"
             width={600}
             height={230}
-            className="w-full h-[300px] object-cover rounded-lg filter brightness-75 blur-[0.2px] object-bottom"
+            className="w-full h-full object-cover rounded-lg filter brightness-75 blur-[0.2px]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
 
         {/* Text Content */}
-        <div className="absolute top-1/2 transform -translate-y-1/2 text-center -translate-x-1/2 left-1/2">
-          <h2 className="text-lg font-medium text-white">About Us</h2>
-          <h1 className="text-2xl font-bold text-white">Welcome to Yoamart!</h1>
+        <div className="absolute top-1/3 transform -translate-y-1/3 text-center -translate-x-1/2 left-1/2">
+        <h2 className="text-lg md:text-[30px] font-medium text-white mb-2">About Us</h2>
+          <h1 className="text-2xl md:text-[40px] font-bold text-white">Welcome to Yoamart!</h1>
         </div>
       </section>
 

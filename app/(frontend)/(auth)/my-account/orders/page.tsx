@@ -1,5 +1,6 @@
 "use client";
 import CustomLoader from "@/components/local/CustomLoader";
+import NoItemFound from "@/components/local/NoItemFound";
 import { Order } from "@/lib/types";
 import { useGetAllUserOrdersQuery } from "@/redux/appData";
 import Image from "next/image";
@@ -19,9 +20,17 @@ export default function OrderDetails() {
     );
   }
   const orderss: Order[] = data?.orders;
+
+  if (orderss.length === 0) {
+    return (
+      <NoItemFound
+        title1="No Orders Found"
+        title2="Add items to Cart and place an order"
+      />
+    );
+  }
   return (
     <div className="px-2 md:px-10">
-      {/* Orders Table */}
       <div className="p-6 my-10">
         {orderss?.map((order) => (
           <div key={order?._id} className="mb-6 border-2 p-5 rounded-md">
@@ -39,11 +48,11 @@ export default function OrderDetails() {
                 <p className="text-sm text-gray-500">
                   <span className="font-semibold">Date:</span>{" "}
                   {order?.createdAt
-                        ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                            timeStyle: "short",
-                          }).format(new Date(order?.createdAt))
-                        : "N/A"}
+                    ? new Intl.DateTimeFormat("en-US", {
+                        dateStyle: "medium",
+                        timeStyle: "short",
+                      }).format(new Date(order?.createdAt))
+                    : "N/A"}
                 </p>
                 <p className="text-sm text-gray-500">
                   Order Status:

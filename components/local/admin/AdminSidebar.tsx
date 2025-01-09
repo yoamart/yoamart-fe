@@ -8,6 +8,7 @@ import {
   ChartBarStacked,
   ShoppingBasket,
   UserRoundPlus,
+  Bike,
 } from "lucide-react";
 
 import {
@@ -86,6 +87,13 @@ export function AdminSidebar({
       //       },
       //     ]
       //   : []),
+
+      {
+        title: "Drivers",
+        url: "/admin/all-drivers",
+        collapsible: false,
+        icon: Bike,
+      },
 
       {
         title: "Create Admin",

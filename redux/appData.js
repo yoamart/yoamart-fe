@@ -38,7 +38,7 @@ const baseQuery = fetchBaseQuery({
 export const productsApi = createApi({
   reducerPath: "products",
   baseQuery,
-  tagTypes: ["Category", "Product", "Order", "OrderID"],
+  tagTypes: ["Category", "Product", "Order", "OrderID", "Driver"],
 
   endpoints: (builder) => ({
     // start optimistic updates yet to be tested
@@ -413,24 +413,6 @@ export const productsApi = createApi({
       invalidatesTags: ["Product"],
     }),
 
-    deleteCategory: builder.mutation({
-      query: (id) => ({
-        url: `/category/${id}`,
-        method: "DELETE",
-        // body: formData,
-      }),
-
-      onQueryStarted: async (arg, { queryFulfilled }) => {
-        try {
-          // console.log("registered");
-          await queryFulfilled;
-        } catch (err) {
-          console.error("category delete failed:", err);
-        }
-      },
-      invalidatesTags: ["Category"],
-    }),
-
     createProduct: builder.mutation({
       query: (credentials) => ({
         url: "/product/create-product",
@@ -499,6 +481,24 @@ export const productsApi = createApi({
       invalidatesTags: ["Category"],
     }),
 
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "DELETE",
+        // body: formData,
+      }),
+
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          // console.log("registered");
+          await queryFulfilled;
+        } catch (err) {
+          console.error("category delete failed:", err);
+        }
+      },
+      invalidatesTags: ["Category"],
+    }),
+
     exportToCsv: builder.query({
       query: () => ({
         url: "/product/export/csv/",
@@ -524,21 +524,30 @@ export const productsApi = createApi({
     }),
 
     confirmOrder: builder.mutation({
-      query: (orderId) => ({
-        url: `/order/${orderId}`,
-        method: "POST",
-        // body: credentials,
-        headers: { "Content-Type": "application/json" },
-      }),
+      query: ({ credentials, orderId }) => {
+        const queryOptions = {
+          url: `/order/${orderId}`,
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        };
+
+        // Add the body only if credentials are provided
+        if (credentials) {
+          queryOptions.body = credentials;
+        }
+
+        return queryOptions;
+      },
       onQueryStarted: async (arg, { queryFulfilled }) => {
         try {
           await queryFulfilled;
         } catch (err) {
-          console.error("Register failed:", err);
+          console.error("Order confirmation failed:", err);
         }
       },
       invalidatesTags: ["Order", "OrderID"],
     }),
+
     getChart: builder.query({
       query: () => "/order/stats/chart",
       headers: { "Content-Type": "application/json" },
@@ -549,6 +558,63 @@ export const productsApi = createApi({
       headers: { "Content-Type": "application/json" },
     }),
 
+    getDrivers: builder.query({
+      query: () => "/driver/all-drivers",
+      providesTags: ["Driver"],
+      headers: { "Content-Type": "application/json" },
+    }),
+
+    createDriver: builder.mutation({
+      query: (credentials) => ({
+        url: "/driver/create",
+        method: "POST",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Driver"],
+    }),
+
+    editDriver: builder.mutation({
+      query: ({ credentials, driverId }) => ({
+        url: `/driver/${driverId}`,
+        method: "PATCH",
+        body: credentials,
+        // headers: { "Content-Type": "application/json" },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Register failed:", err);
+        }
+      },
+      invalidatesTags: ["Driver"],
+    }),
+
+    deleteDriver: builder.mutation({
+      query: (id) => ({
+        url: `/driver/${id}`,
+        method: "DELETE",
+        // body: formData,
+      }),
+
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          // console.log("registered");
+          await queryFulfilled;
+        } catch (err) {
+          console.error("category delete failed:", err);
+        }
+      },
+      invalidatesTags: ["Driver"],
+    }),
 
     createContact: builder.mutation({
       query: (credentials) => ({
@@ -598,14 +664,11 @@ export const productsApi = createApi({
       },
     }),
 
-
     getGoogleSignin: builder.query({
       query: () => "/google",
       // headers: { "Content-Type": "application/json" },
     }),
   }),
-
-
 });
 
 export const {
@@ -649,6 +712,11 @@ export const {
   useCreateContactMutation,
   useCreateNewsletterMutation,
   useCreateAdminMutation,
+
+  useGetDriversQuery,
+  useCreateDriverMutation,
+  useEditDriverMutation,
+  useDeleteDriverMutation,
 
   useGetGoogleSigninQuery,
 } = productsApi;

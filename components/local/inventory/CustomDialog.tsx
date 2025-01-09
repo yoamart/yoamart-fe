@@ -1,14 +1,14 @@
 import {
   Dialog,
   DialogContent,
- 
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import DeleteForm from "./DeleteForm";
 import AddEditProduct from "./AddEditProduct";
 import AddEditCategory from "./AddEditCategory";
-import { Category, Product } from "@/lib/types";
+import { Category, Driver, Product } from "@/lib/types";
+import AddEditDriver from "./AddEditDriver";
 
 export function CustomDialog({
   open,
@@ -22,7 +22,7 @@ export function CustomDialog({
 
   title: string;
   type: string;
-  data: Product | Category | undefined;
+  data: Product | Category | Driver | undefined;
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -42,6 +42,10 @@ export function CustomDialog({
         )}
         {type === "delete" && (
           <DeleteForm title={title} onClose={onOpenChange} data={data} />
+        )}
+
+        {title === "driver" && (type === "edit" || type === "add") && (
+          <AddEditDriver onClose={onOpenChange} data={data} type={type} />
         )}
       </DialogContent>
     </Dialog>

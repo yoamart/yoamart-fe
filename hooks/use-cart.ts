@@ -12,7 +12,31 @@ export const useCart = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state: { cart: CartType }) => state.cart);
     const session = useSelector((state: RootState) => state.auth.userData);
+    
     const router = useRouter()
+    const [selectedShippingType, setSelectedShippingType] =
+        React.useState<string>(""); // 'flat-rate' or 'pickup'
+    const [selectedShipping, setSelectedShipping] = React.useState<string>(""); // "lagos-mainland || lagos-island"
+
+    // Handle radio button change
+    const handleShippingTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedShippingType(e.target.value);
+    };
+
+    const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedShipping(e.target.value);
+    };
+
+    const mainland = 3500;
+    const island = 5000;
+    const shippingFee = selectedShippingType === "flat-rate" &&
+        selectedShipping === "lagos-mainland"
+        ? mainland : selectedShippingType === "flat-rate" &&
+            selectedShipping === "lagos-island"
+            ? island : 0;
+
+    const total = shippingFee + cart.cartTotalAmount;
+
 
     const [createOrder, { isLoading, isSuccess, isError, error }] =
         useCreateOrderMutation();
@@ -38,7 +62,13 @@ export const useCart = () => {
     };
 
 
+
+
+
     const handleCheckout = async () => {
+        if (!selectedShippingType || (selectedShippingType === "flat-rate" && !selectedShipping)) {
+            toast.error("Please select a shipping type")
+        }
         try {
             const cartData = cart.cartItems.map((item) => ({
                 id: item?._id,
@@ -54,7 +84,9 @@ export const useCart = () => {
                 email: session?.email,
                 address: session?.address || "",
                 phone: session?.phone || "",
-                totalPrice: cart.cartTotalAmount,
+                subTotal: cart.cartTotalAmount,
+                total,
+                shippingFee,
                 cart: JSON.stringify(cartData),
             };
 
@@ -89,5 +121,12 @@ export const useCart = () => {
         handleDecreaseQuantity,
         handleAddToCart,
         handleCheckout,
+        handleShippingChange,
+        handleShippingTypeChange,
+        selectedShippingType,
+        selectedShipping,
+        total,
+        mainland,
+        island,
     };
 };

@@ -6,6 +6,7 @@ import { toast } from "sonner"; // Assuming you are using react-hot-toast for no
 import { Loader } from "lucide-react"; // Assuming you're using this for the loader
 import {
   useDeleteCategoryMutation,
+  useDeleteDriverMutation,
   useDeleteProductMutation,
 } from "@/redux/appData";
 import { Category, Product } from "@/lib/types";
@@ -21,7 +22,9 @@ export default function DeleteForm({
 }) {
   const [isLoading, setIsLoading] = useState(false); // Track loading state
   const [deleteCategory] = useDeleteCategoryMutation();
+  const [deleteDriver] = useDeleteDriverMutation();
 
+  // console.log(data)
   const [deleteProduct] = useDeleteProductMutation();
   // Handle delete
   const handleDelete = async () => {
@@ -35,6 +38,10 @@ export default function DeleteForm({
       }
       if (title === "product") {
         result = await deleteProduct(data?._id); // Delete category
+      }
+
+      if (title === "driver") {
+        result = await deleteDriver(data?._id); // Delete category
       }
 
       // If the deletion was successful, show a success toast and close the dialog

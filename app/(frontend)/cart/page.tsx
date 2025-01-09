@@ -3,12 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/hooks/use-cart";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { Loader } from "lucide-react";
 import NoItemFound from "@/components/local/NoItemFound";
+import { RootState } from "@/lib/types";
+import { useSelector } from "react-redux";
 
 export default function Cart() {
+  const auth = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const [error, setError] = useState<string | null>(null);
+
   const {
     cart,
     handleRemoveFromCart,
@@ -19,9 +24,49 @@ export default function Cart() {
     isLoading,
     // isSuccess,
     // isError,
+    handleShippingChange,
+    handleShippingTypeChange,
+    selectedShippingType,
+    selectedShipping,
+    total,
+    mainland,
+    island,
   } = useCart();
 
   const { cartItems } = cart;
+
+  const validateShipping = () => {
+    if (!selectedShippingType) {
+      setError("Please select a shipping type.");
+      return false;
+    }
+    if (selectedShippingType === "flat-rate" && !selectedShipping) {
+      setError("Please select a flat-rate shipping option.");
+      return false;
+    }
+    setError(null);
+    return true;
+  };
+
+  useEffect(() => {
+    if (
+      selectedShippingType ||
+      (selectedShippingType === "flat-rate" && selectedShipping)
+    ) {
+      setError("");
+    }
+  }, [selectedShipping, selectedShippingType]);
+
+  const handleProceedToCheckout = () => {
+    if (validateShipping()) {
+      if (!auth) {
+        const callbackUrl = encodeURIComponent(window.location.href);
+        window.location.href = `/my-account?redirect=${callbackUrl}`;
+      } else {
+        handleCheckout();
+      }
+    }
+  };
 
   if (cart.cartTotalQuantity < 1) {
     return (
@@ -118,41 +163,16 @@ export default function Cart() {
             </div>
           </div>
 
-          {/* Cart Totals */}
           <div className="p-4 border rounded-lg">
             <h2 className="text-lg font-semibold mb-4 font-dosis uppercase">
               Cart Totals
             </h2>
-            <Separator className="my-2 " />
-            <div className="flex justify-between mb-2">
-              <span>Subtotal</span>
-              <span>
-                {" "}
-                {new Intl.NumberFormat("en-NG", {
-                  style: "currency",
-                  currency: "NGN",
-                }).format(cart.cartTotalAmount)}
-              </span>
-            </div>
-            {/* <div className="flex justify-between mb-2">
-              <span>Shipping</span>
-              <div>
-                <label className="block">
-                  <input type="radio" name="shipping" className="mr-2" />
-                  Flat rate: $5.00
-                </label>
-                <label className="block">
-                  <input type="radio" name="shipping" className="mr-2" />
-                  Local pickup
-                </label>
-              </div>
-            </div> */}
-            <Separator className="my-3 " />
+            <Separator className="my-2" />
 
+            {/* Subtotal Section */}
             <div className="flex justify-between mb-4">
-              <span>Total</span>
-              <span className="text-lg font-bold">
-                {" "}
+              <span className="">Subtotal</span>
+              <span className="text-sm font-medium">
                 {new Intl.NumberFormat("en-NG", {
                   style: "currency",
                   currency: "NGN",
@@ -160,6 +180,121 @@ export default function Cart() {
               </span>
             </div>
 
+            {/* Shipping Options Section */}
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold mb-2 font-dosis">
+                Shipping Options
+              </h3>
+
+              <div className="space-y-4">
+                {/* Flat Rate Shipping Option */}
+                <div className="">
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        name="shipping"
+                        value="flat-rate"
+                        checked={selectedShippingType === "flat-rate"}
+                        onChange={handleShippingTypeChange}
+                        className="mr-2"
+                      />
+                      Flat Rate Shipping
+                    </label>
+                  </div>
+                  {selectedShippingType === "flat-rate" && (
+                    <div className="ml-4 space-y-2">
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name="shippingDetail"
+                          id="lagos-mainland"
+                          value="lagos-mainland"
+                          checked={selectedShipping === "lagos-mainland"}
+                          onChange={handleShippingChange}
+                          className="mr-2"
+                        />
+                        <label htmlFor="lagos-mainland" className="text-sm">
+                          Lagos to Mainland
+                        </label>
+                        <span className="ml-auto text-sm font-medium">
+                          {new Intl.NumberFormat("en-NG", {
+                            style: "currency",
+                            currency: "NGN",
+                          }).format(mainland)}{" "}
+                          {/* Example price */}
+                        </span>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name="shippingDetail"
+                          id="lagos-island"
+                          className="mr-2"
+                          checked={selectedShipping === "lagos-island"}
+                          onChange={handleShippingChange}
+                          value="lagos-island"
+                        />
+                        <label htmlFor="lagos-island" className="text-sm">
+                          Lagos to Island
+                        </label>
+                        <span className="ml-auto text-sm font-medium">
+                          {new Intl.NumberFormat("en-NG", {
+                            style: "currency",
+                            currency: "NGN",
+                          }).format(island)}{" "}
+                          {/* Example price */}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Local Pickup Option */}
+                <div className="flex items-center space-x-4 justify-between">
+                  <label htmlFor="local-pickup" className="text-sm">
+                    {" "}
+                    <input
+                      type="radio"
+                      name="shipping"
+                      id="local-pickup"
+                      value="pickup"
+                      checked={selectedShippingType === "pickup"}
+                      onChange={handleShippingTypeChange}
+                      className="mr-2"
+                    />
+                    Local Pickup{" "}
+                    <span className="text-xs text-gray-500 italic">
+                      (pick up from store)
+                    </span>
+                  </label>
+                  <span className="ml-auto text-sm font-medium">
+                    {new Intl.NumberFormat("en-NG", {
+                      style: "currency",
+                      currency: "NGN",
+                    }).format(0)}{" "}
+                    {/* Free pickup */}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
+            <Separator className="my-3" />
+
+            {/* Total Section */}
+            <div className="flex justify-between mb-4">
+              <span className="text-sm">Total</span>
+              <span className="text-lg font-bold">
+                {new Intl.NumberFormat("en-NG", {
+                  style: "currency",
+                  currency: "NGN",
+                }).format(total)}
+              </span>
+            </div>
+
+            {/* Checkout Button */}
             <div className="w-full">
               {isLoading ? (
                 <Button
@@ -172,9 +307,9 @@ export default function Cart() {
                 </Button>
               ) : (
                 <Button
-                  onClick={handleCheckout}
+                  onClick={handleProceedToCheckout}
                   className="w-full bg-ysecondary text-white py-2 rounded-lg"
-                  type="submit"
+                  type="button"
                 >
                   Proceed to Checkout
                 </Button>

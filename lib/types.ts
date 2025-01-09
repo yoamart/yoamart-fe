@@ -14,6 +14,7 @@ export interface Product {
     createdAt: string;
     updatedAt: string;
     __v: number;
+    phone?: string;
 }
 
 export interface CategorySp {
@@ -34,6 +35,8 @@ export interface Category {
     createdAt: string;
     updatedAt: string;
     __v: number;
+    phone?: string;
+
     description?: string; // Optional description since it can be empty
 }
 
@@ -113,6 +116,8 @@ type Order = {
     name: string;
     cart: OrderItem[];
     total: number;
+    subTotal: number;
+    shippingFee: number;
     mobile: string;
     note: string;
     orderStatus: string;
@@ -131,5 +136,19 @@ type ApiResponse = {
     orderId: string;
     order: Order;
 };
+
+export interface Driver {
+    _id: string;
+    name: string;
+    phone: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    image: string;
+    price: number;
+    categoryId: CategorySp;
+    quantity: number;
+    description?: string;
+}
 
 export type { Order, OrderItem, ApiResponse };

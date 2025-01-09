@@ -89,7 +89,7 @@ export default function Main({ orderId }: { orderId: string }) {
                     {new Intl.NumberFormat("en-NG", {
                       style: "currency",
                       currency: "NGN",
-                    }).format(cartItem?.price)}
+                    }).format(cartItem?.price * cartItem?.quantity)}
                   </td>
                 </tr>
               ))}
@@ -100,17 +100,20 @@ export default function Main({ orderId }: { orderId: string }) {
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
                     currency: "NGN",
-                  }).format(data?.total)}
+                  }).format(data?.subTotal)}
                 </td>
               </tr>
-              {/* <tr>
-                <td className="px-4 py-2 font-medium">Shipping:</td>
-                <td className="px-4 py-2">Local pickup</td>
-              </tr> */}
+
               <tr className="border-b">
-                <td className="px-4 py-2 font-medium">Payment method:</td>
-                <td className="px-4 py-2">Direct bank transfer</td>
+                <td className="px-4 py-2 font-medium">Shipping Fee:</td>
+                <td className="px-4 py-2">
+                  {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  }).format(data?.shippingFee)}
+                </td>
               </tr>
+
               <tr className="border-b">
                 <td className="px-4 py-2 font-medium">Total:</td>
                 <td className="px-4 py-2">
@@ -119,6 +122,22 @@ export default function Main({ orderId }: { orderId: string }) {
                     currency: "NGN",
                   }).format(data?.total)}
                 </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-medium">Shipping Type:</td>
+                <td className="px-4 py-2">
+                  {data?.shippingFee === 0
+                    ? "Local pickup"
+                    : `Flat rate (${
+                        data?.shippingFee === 3500
+                          ? "Lagos to Mainland"
+                          : "Lagos to Island"
+                      })`}
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 font-medium">Payment method:</td>
+                <td className="px-4 py-2">Direct bank transfer</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-medium">Note:</td>

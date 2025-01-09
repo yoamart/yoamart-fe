@@ -58,6 +58,23 @@ export const lostPasswordSchema = z.object({
 
 });
 
+
+
+export const assignDriverSchema = z.object({
+    driverId: z
+        .string({ required_error: "Driver is required" }),
+    expectedDeliveryDate: z.date({
+        required_error: "An expected date of delivery is required.",
+    }),
+});
+
+export const createDriverSchema = z.object({
+    name: z
+        .string({ required_error: "Driver name is required" }),
+    phone: z.string({ required_error: "phone number is required" }),
+});
+
+
 export const changePasswordSchema = z
     .object({
         password: z

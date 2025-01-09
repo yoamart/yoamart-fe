@@ -11,7 +11,7 @@ export default function CartPopover() {
   const {
     cart,
     handleRemoveFromCart,
-    handleCheckout,
+    // handleCheckout,
     // isLoading,
     // isSuccess,
     // isError,
@@ -87,12 +87,12 @@ export default function CartPopover() {
             <Button asChild className="rounded-none w-full" variant={"outline"}>
               <Link href={"/cart"}>View Cart</Link>
             </Button>
-            <Button
+            {/* <Button
               onClick={handleCheckout}
               className="rounded-none w-full bg-[#D51243] text-white"
             >
               Checkout
-            </Button>
+            </Button> */}
           </div>
         </div>
       ) : (

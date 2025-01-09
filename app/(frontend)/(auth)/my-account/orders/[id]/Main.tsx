@@ -33,12 +33,12 @@ const Main = ({ orderId }: { orderId: string }) => {
           Order <span className="font-semibold">#{order._id}</span> was placed
           on{" "}
           <span className="font-semibold">
-          {order?.createdAt
-                        ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                            timeStyle: "short",
-                          }).format(new Date(order?.createdAt))
-                        : "N/A"}
+            {order?.createdAt
+              ? new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                }).format(new Date(order?.createdAt))
+              : "N/A"}
           </span>{" "}
           and is currently{" "}
           <span className="text-yellow-600">{order.orderStatus}</span>.
@@ -78,7 +78,7 @@ const Main = ({ orderId }: { orderId: string }) => {
                     {new Intl.NumberFormat("en-NG", {
                       style: "currency",
                       currency: "NGN",
-                    }).format(item.price)}{" "}
+                    }).format(item.price * item.quantity)}{" "}
                   </td>
                 </tr>
               ))}
@@ -90,29 +90,22 @@ const Main = ({ orderId }: { orderId: string }) => {
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
                     currency: "NGN",
-                  }).format(order?.total)}
+                  }).format(order?.subTotal)}
                 </td>
               </tr>
-              {/* <tr>
+              <tr>
                 <td className="py-2 px-4 border-b border-gray-200 font-semibold">
                   Shipping:
                 </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-right">
-                  {order.shipping}
-                </td>
-              </tr> */}
-              <tr>
-                <td className="py-2 px-4 border-b border-gray-200 font-semibold">
-                  Payment method:
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-right">
-                  Direct Bank Transfer
-                </td>
+                {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  }).format(order?.shippingFee)}                </td>
               </tr>
-              <tr>
-                <td className="py-2 px-4 border-b border-gray-200 font-semibold">
-                  Total:
-                </td>
+
+              <tr className="border-b">
+                <td className="px-4 py-2 font-medium border-b border-gray-200">Total:</td>
                 <td className="py-2 px-4 border-b border-gray-200 text-right">
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
@@ -121,10 +114,26 @@ const Main = ({ orderId }: { orderId: string }) => {
                 </td>
               </tr>
               <tr>
+                <td className="px-4 py-2 font-medium border-b border-gray-200">Shipping Type:</td>
+                <td className="py-2 px-4 border-b border-gray-200 text-right">
+                  {order?.shippingFee === 0
+                    ? "Local pickup"
+                    : `Flat rate (${
+                        order?.shippingFee === 3500
+                          ? "Lagos to Mainland"
+                          : "Lagos to Island"
+                      })`}
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 font-medium border-b border-gray-200">Payment method:</td>
+                <td className="py-2 px-4 border-b border-gray-200 text-right">Direct bank transfer</td>
+              </tr>
+              <tr>
                 <td className="py-2 px-4 font-semibold border-b border-gray-200">
                   Note:
                 </td>
-                <td className="py-2 px-4 text-right">{order.note}</td>
+                <td className="py-2 px-4 text-right border-b border-gray-200">{order.note}</td>
               </tr>
 
               <tr>

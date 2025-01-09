@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/select";
 
 import { uploadImageToCloudinary } from "@/lib/Cloudinary";
-import { Category, Product } from "@/lib/types";
+import { Category, Driver, Product } from "@/lib/types";
 import {
   useCreateProductMutation,
   useEditProductMutation,
@@ -44,7 +44,7 @@ export default function AddEditProduct({
   onClose,
   type,
 }: {
-  data: Product | Category |undefined;
+  data: Product | Category | Driver |undefined;
   type: string;
   onClose: (open: boolean) => void;
 }) {
@@ -204,7 +204,7 @@ export default function AddEditProduct({
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
-                    <SelectContent className="z-[9999]">
+                    <SelectContent className="">
                       <SelectGroup>
                         {categoryToDisplay ? (
                           categoryToDisplay.map((category) => (

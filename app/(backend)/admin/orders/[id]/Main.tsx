@@ -1,27 +1,66 @@
 "use client";
 import CustomLoader from "@/components/local/CustomLoader";
-import { Button } from "@/components/ui/button";
-import { Order } from "@/lib/types";
+import { Driver, Order } from "@/lib/types";
 import {
   useConfirmOrderMutation,
   useConfirmPaymentMutation,
   useGetUserOrderByIdQuery,
+  useGetDriversQuery,
 } from "@/redux/appData";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import {  Check, Loader } from "lucide-react";
 import Image from "next/image";
-// import { notFound, useRouter } from "next/navigation";
-import React from "react";
-// import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+
+import ErrorMessage from "@/components/local/auth/errorMessage";
+import { assignDriverSchema } from "@/lib/zodSchema";
+import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { Check, CalendarIcon, Loader } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 type ErrorResponse = { data: { message: string } };
 
 const Main = ({ orderId }: { orderId: string }) => {
-  // const session = useSelector((state: RootState) => state.auth.userData);
-  // const router = useRouter();
+  const [open, setOpen] = React.useState(false);
   const { data, isLoading, error } = useGetUserOrderByIdQuery(orderId);
-
+  const { data: allDrivers, isLoading: isLoadingDrivers } =
+    useGetDriversQuery(undefined);
+  const drivers: Driver[] = allDrivers?.drivers;
   const [confirmPayment, { isLoading: isConfirming }] =
     useConfirmPaymentMutation();
 
@@ -53,9 +92,9 @@ const Main = ({ orderId }: { orderId: string }) => {
 
   const handleChangeOrderStatus = async () => {
     try {
-      // Make the API call to toggle the status
-      const response = await confirmOrder(orderId);
-      // console.log(response);
+      const response = await confirmOrder({ orderId });
+
+      console.log(response);
       // Optionally handle the response from the server if needed
       if (response?.data?.message) {
         toast.success(response.data.message || "Success");
@@ -136,7 +175,14 @@ const Main = ({ orderId }: { orderId: string }) => {
               {isConfirming ? <Loader className="animate-spin" /> : <Check />}
             </Button>
           ) : order.isPaid === "paid" ? (
-            <Button onClick={handleChangeOrderStatus} className="bg-ysecondary">
+            <Button
+              onClick={
+                order.orderStatus === "pending"
+                  ? () => setOpen(true)
+                  : handleChangeOrderStatus
+              }
+              className="bg-ysecondary"
+            >
               {order.orderStatus === "pending"
                 ? "mark as Shipped"
                 : order.orderStatus === "shipped"
@@ -170,7 +216,7 @@ const Main = ({ orderId }: { orderId: string }) => {
                     {new Intl.NumberFormat("en-NG", {
                       style: "currency",
                       currency: "NGN",
-                    }).format(item.price)}{" "}
+                    }).format(item.price * item.quantity)}{" "}
                   </td>
                 </tr>
               ))}
@@ -182,29 +228,22 @@ const Main = ({ orderId }: { orderId: string }) => {
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
                     currency: "NGN",
-                  }).format(order?.total)}
-                </td>
-              </tr>
-              {/* <tr>
-                <td className="py-2 px-4 border-b border-gray-200 font-semibold">
-                  Shipping:
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-right">
-                  {order.shipping}
-                </td>
-              </tr> */}
-              <tr>
-                <td className="py-2 px-4 border-b border-gray-200 font-semibold">
-                  Payment method:
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-right">
-                  Direct Bank Transfer
+                  }).format(order?.subTotal)}
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border-b border-gray-200 font-semibold">
-                  Total:
+                  Shipping fee:
                 </td>
+                <td className="py-2 px-4 border-b border-gray-200 text-right">
+                  {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  }).format(order?.shippingFee)}{" "}
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 font-medium border-b border-gray-200">Total:</td>
                 <td className="py-2 px-4 border-b border-gray-200 text-right">
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
@@ -213,10 +252,28 @@ const Main = ({ orderId }: { orderId: string }) => {
                 </td>
               </tr>
               <tr>
+                <td className="px-4 py-2 font-medium border-b border-gray-200">Shipping Type:</td>
+                <td className="py-2 px-4 border-b border-gray-200 text-right">
+                  {order?.shippingFee === 0
+                    ? "Local pickup"
+                    : `Flat rate (${
+                        order?.shippingFee === 3500
+                          ? "Lagos to Mainland"
+                          : "Lagos to Island"
+                      })`}
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 font-medium border-b border-gray-200">Payment method:</td>
+                <td className="py-2 px-4 border-b border-gray-200 text-right">
+                  Direct bank transfer
+                </td>
+              </tr>
+              <tr>
                 <td className="py-2 px-4 font-semibold border-b border-gray-200">
                   Note:
                 </td>
-                <td className="py-2 px-4 text-right">{order.note}</td>
+                <td className="py-2 px-4 text-right border-b border-gray-200">{order.note}</td>
               </tr>
 
               <tr>
@@ -248,8 +305,196 @@ const Main = ({ orderId }: { orderId: string }) => {
           <p>{order?.email}</p>
         </div>
       </div>
+
+      <AssignDriver
+        open={open}
+        setOpen={setOpen}
+        drivers={drivers}
+        isLoadingDrivers={isLoadingDrivers}
+        orderId={orderId}
+      />
     </div>
   );
 };
 
 export default Main;
+
+function AssignDriver({
+  open,
+  setOpen,
+  drivers,
+  isLoadingDrivers,
+  orderId,
+}: {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+  drivers: { name: string; phone: string; _id: string }[];
+  isLoadingDrivers: boolean;
+  orderId: string;
+}) {
+  const [globalError, setGlobalError] = useState<string>("");
+
+  const [confirmOrder, { isLoading: isMarking }] = useConfirmOrderMutation();
+
+  const form = useForm<z.infer<typeof assignDriverSchema>>({
+    resolver: zodResolver(assignDriverSchema),
+    defaultValues: {
+      driverId: "",
+      expectedDeliveryDate: undefined,
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof assignDriverSchema>) => {
+    setGlobalError("");
+    try {
+      // Make the API call to toggle the status
+      const credentials = {
+        expectedDeliveryDate: values.expectedDeliveryDate,
+        driverId: values.driverId,
+      };
+      const response = await confirmOrder({ credentials, orderId });
+
+      console.log(response);
+      // Optionally handle the response from the server if needed
+      if (response?.data?.message) {
+        setOpen(false);
+        toast.success(response.data.message || "Success");
+      } else if (
+        "data" in (response?.error as FetchBaseQueryError) &&
+        (response?.error as FetchBaseQueryError)?.data
+      ) {
+        const error = response.error as ErrorResponse;
+        toast.error(error.data.message || "Error updating status");
+      } else {
+        toast.error("Error updating status");
+      }
+    } catch (error) {
+      console.error("API call failed", error);
+      // Revert the toggle if the API call fails
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={() => setOpen(false)}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Update Shipping Details</DialogTitle>
+          <DialogDescription>
+            Please select a driver and fill in the expected delivery date to
+            update order status to shipped.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="">
+          {globalError && <ErrorMessage error={globalError} />}
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="flex flex-col gap-[5px]">
+                <Label htmlFor="driverId" className="text-xs">
+                  Driver
+                </Label>
+                <Controller
+                  name="driverId"
+                  control={form.control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select onValueChange={onChange} value={value}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select a driver" />
+                      </SelectTrigger>
+                      <SelectContent className="">
+                        <SelectGroup>
+                          {isLoadingDrivers ? (
+                            <div className="flex items-center gap-1 text-xs">
+                              <Loader className="animate-spin" />
+                              <span>Loading drivers...</span>
+                            </div>
+                          ) : drivers && drivers.length > 0 ? (
+                            drivers.map((driver) => (
+                              <SelectItem key={driver._id} value={driver._id}>
+                                {driver.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <div className="flex items-center gap-1 text-xs">
+                              No drivers available.
+                            </div>
+                          )}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="expectedDeliveryDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <Label
+                      htmlFor="expectedDeliveryDate"
+                      className="text-xs mb-[5px]"
+                    >
+                      Expected Date of Delivery
+                    </Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 " align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription className="text-xs">
+                      This date is emailed to the buyer in other to anticipate
+                      order delivery.{" "}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex w-full justify-end mt-3">
+                {isMarking ? (
+                  <Button
+                    disabled
+                    className="bg-ysecondary flex items-center justify-center gap-1"
+                    type="submit"
+                  >
+                    <span>Please wait</span>
+                    <Loader className="animate-spin" />
+                  </Button>
+                ) : (
+                  <Button className="bg-yprimary " type="submit">
+                    Ship
+                  </Button>
+                )}
+              </div>
+            </form>
+          </Form>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}

@@ -284,20 +284,26 @@ export default function CheckoutMain({ orderId }: { orderId: string }) {
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
                     currency: "NGN",
-                  }).format(item?.price)}
+                  }).format(item?.price * item?.quantity)}
                 </span>
               </div>
             ))}
 
             <div className="mt-4 border-t pt-4">
-              {/* <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center">
                 <span>Subtotal</span>
-                <span>$7.25</span>
+                <span> {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  }).format(order?.subTotal ?? 0)}</span>
               </div>
               <div className="flex justify-between items-center mt-2">
-                <span>Shipping</span>
-                <span>Flat rate: $5.00</span>
-              </div> */}
+                <span>Shipping fee</span>
+                <span>{new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  }).format(order?.shippingFee ?? 0)}</span>
+              </div>
               <div className="flex justify-between items-center mt-2">
                 <span className="font-semibold text-gray-400">Total</span>
                 <span className="font-bold text-lg">

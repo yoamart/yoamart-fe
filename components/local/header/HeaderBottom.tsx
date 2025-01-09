@@ -13,19 +13,19 @@ export default function HeaderBottom() {
   // const pathname = usePathname();
   // const isHome = pathname === "/";
   const [showCategories, setShowCategories] = useState<boolean>(false);
-
+  let hideMenuTimeout: NodeJS.Timeout;
+  
   const handleMouseEnter = () => {
-    // if (window.innerWidth >= 768) {
-    // Trigger only for larger screens
+    clearTimeout(hideMenuTimeout); // Cancel any pending hide action
     setShowCategories(true);
-    // }
   };
-
+  
   const handleMouseLeave = () => {
-    // Trigger only for larger screens
-    setShowCategories(false);
+    hideMenuTimeout = setTimeout(() => {
+      setShowCategories(false);
+    }, 300); // Adjust delay time as needed
   };
-
+  
   const { data } = useGetAllCategoryQuery(undefined);
   const category: Category[] = data ? data.category : [];
 

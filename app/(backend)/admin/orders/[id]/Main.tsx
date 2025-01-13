@@ -176,12 +176,13 @@ const Main = ({ orderId }: { orderId: string }) => {
             </Button>
           ) : order.isPaid === "paid" ? (
             <Button
+              disabled={order.orderStatus === "completed"}
               onClick={
                 order.orderStatus === "pending"
                   ? () => setOpen(true)
                   : handleChangeOrderStatus
               }
-              className="bg-ysecondary"
+              className={`${order.orderStatus === "completed" ? "bg-green-500" :"bg-ysecondary"}`}
             >
               {order.orderStatus === "pending"
                 ? "mark as Shipped"
@@ -243,7 +244,9 @@ const Main = ({ orderId }: { orderId: string }) => {
                 </td>
               </tr>
               <tr className="border-b">
-                <td className="px-4 py-2 font-medium border-b border-gray-200">Total:</td>
+                <td className="px-4 py-2 font-medium border-b border-gray-200">
+                  Total:
+                </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-right">
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
@@ -252,7 +255,9 @@ const Main = ({ orderId }: { orderId: string }) => {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium border-b border-gray-200">Shipping Type:</td>
+                <td className="px-4 py-2 font-medium border-b border-gray-200">
+                  Shipping Type:
+                </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-right">
                   {order?.shippingFee === 0
                     ? "Local pickup"
@@ -264,7 +269,9 @@ const Main = ({ orderId }: { orderId: string }) => {
                 </td>
               </tr>
               <tr className="border-b">
-                <td className="px-4 py-2 font-medium border-b border-gray-200">Payment method:</td>
+                <td className="px-4 py-2 font-medium border-b border-gray-200">
+                  Payment method:
+                </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-right">
                   Direct bank transfer
                 </td>
@@ -273,7 +280,9 @@ const Main = ({ orderId }: { orderId: string }) => {
                 <td className="py-2 px-4 font-semibold border-b border-gray-200">
                   Note:
                 </td>
-                <td className="py-2 px-4 text-right border-b border-gray-200">{order.note}</td>
+                <td className="py-2 px-4 text-right border-b border-gray-200">
+                  {order.note}
+                </td>
               </tr>
 
               <tr>

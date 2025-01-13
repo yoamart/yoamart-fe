@@ -14,9 +14,12 @@ export default function HotProduct() {
     limit: 604,
   });
 
-  const hotProduct: Product = data?.products.find(
+  const item: Product = data?.products.find(
     (product: Product) => product.isHot === true
   );
+
+  const hotProduct = item ? item : data?.products[3];
+  // console.log(hotProduct);
 
   return (
     <div className="space-y-5">

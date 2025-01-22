@@ -1,3 +1,4 @@
+import { Palmtree } from "lucide-react";
 import {
   FaAppleAlt,
   FaBroom,
@@ -15,6 +16,7 @@ export type CategoryNames =
   | "Drinks"
   | "Electrical Items"
   | "School Items"
+  | "Village Corner"
   | "Tools";
 
 export const categoryIcons: Record<CategoryNames, JSX.Element> = {
@@ -37,6 +39,9 @@ export const categoryIcons: Record<CategoryNames, JSX.Element> = {
   "School Items": (
     <FaSchool className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
+  "Village Corner": (
+    <Palmtree className="w-5 h-5 text-ysecondary group-hover:text-white" />
+  ),
   Tools: (
     <FaWrench className="w-5 h-5 text-ysecondary group-hover:text-white" />
   ),
@@ -49,6 +54,7 @@ export const categoryImages: Record<CategoryNames, string> = {
   Drinks: "/images/1800--700bannercategorydrinks@1,5x.jpg",
   "Electrical Items": "/images/1800--700electricalitems@2x.jpg",
   "School Items": "/images/1800--700schoolitems@2x.jpg",
+  "Village Corner": "/images/1800--700garri.jpg",
   Tools: "/images/1800--700tools@2x.jpg",
 };
 

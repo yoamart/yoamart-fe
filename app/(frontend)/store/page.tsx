@@ -227,6 +227,12 @@ export default function Store() {
           title: "Supplies for Every Student",
           highlight: "Learn and Grow",
         };
+        case "Village Corner":
+          return {
+            subTitle: "Authentic Traditional Goods",
+            title: "Savor the Taste of Home",
+            highlight: "Shop Local, Relive Traditions",
+          }
       case "Tools":
         return {
           subTitle: "Build with Confidence",
@@ -350,7 +356,7 @@ export default function Store() {
             <p className="text-red-500">Failed to load All products.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 border rounded-lg">
+          <div className="grid grid-cols-2 lg:grid-cols-4 border rounded-lg mb-10">
             {productsToDisplay.length > 0 ? (
               productsToDisplay.map((data, index) => (
                 <ProductCard key={index} data={data} />

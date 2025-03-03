@@ -29,13 +29,13 @@ export default function Banner3() {
           <h1 className="text-2xl font-bold text-green-400">
             Knorr Chicken Seasoning
           </h1>
-          <p className="text-sm text-gray-300 mt-2">Starting at</p>
+          {/* <p className="text-sm text-gray-300 mt-2">Starting at</p>
           <p className="text-2xl font-bold text-red-500">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
               currency: "NGN",
             }).format(500)}
-          </p>
+          </p> */}
         </div>
       </div>
 
@@ -64,13 +64,13 @@ export default function Banner3() {
           <h1 className="text-2xl font-bold text-blue-400">
             Harpic Disinfectant
           </h1>
-          <p className="text-sm text-gray-300 mt-2">Now available for</p>
+          {/* <p className="text-sm text-gray-300 mt-2">Now available for</p>
           <p className="text-2xl font-bold text-red-500">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
               currency: "NGN",
             }).format(1000)}
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 import { useGetAllCategoryQuery } from "@/redux/appData";
-import { shuffleArray } from "@/hooks/shuffle";
+// import { shuffleArray } from "@/hooks/shuffle";
 import { Category, RootState } from "@/lib/types";
 import { categoryIcons, CategoryNames } from "../CategoryIcons";
 import { useSelector } from "react-redux";
@@ -30,7 +30,7 @@ export function MobileSidebar() {
 
   const { data } = useGetAllCategoryQuery(undefined);
   const category: Category[] = data ? data.category : [];
-  const shuffledData: Category[] = shuffleArray([...category]);
+  // const shuffledData: Category[] = shuffleArray([...category]);
   const session = useSelector((state: RootState) => state.auth.userData);
 
 
@@ -103,12 +103,12 @@ export function MobileSidebar() {
             <li className="py-3">
               <SheetClose asChild>
                 <Link href="/store" className="">
-                  Store
+                  Products
                 </Link>
               </SheetClose>
             </li>
             <Separator className="" />
-
+{/* 
             {shuffledData.slice(0, 3).map((data, index) => (
               <div key={index}>
                 <li className="py-3">
@@ -126,7 +126,7 @@ export function MobileSidebar() {
                 </li>
                 <Separator className="" />
               </div>
-            ))}
+            ))} */}
 
             <li className="py-3">
               <SheetClose asChild>

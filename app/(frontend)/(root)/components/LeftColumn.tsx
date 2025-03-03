@@ -48,13 +48,13 @@ export default function LeftColumn() {
           <h1 className="text-2xl font-bold text-purple-500">
             Premium Red Wine
           </h1>
-          <p className="text-sm text-gray-400 mt-2">From only</p>
+          {/* <p className="text-sm text-gray-400 mt-2">From only</p>
           <p className="text-2xl font-bold text-red-500">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
               currency: "NGN",
             }).format(2600)}
-          </p>
+          </p> */}
         </div>
       </div>
 
@@ -87,13 +87,13 @@ export default function LeftColumn() {
           <h1 className="text-2xl font-bold text-yellow-400">
             Golden Crunch Cornflakes
           </h1>
-          <p className="text-sm text-gray-300 mt-2">From as low as</p>
+          {/* <p className="text-sm text-gray-300 mt-2">From as low as</p>
           <p className="text-2xl font-bold text-red-500">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
               currency: "NGN",
             }).format(3250)}
-          </p>
+          </p> */}
         </div>
       </div>
 

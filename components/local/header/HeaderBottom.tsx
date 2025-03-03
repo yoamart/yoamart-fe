@@ -108,7 +108,7 @@ export default function HeaderBottom() {
           href="/store"
           className="font-dosis uppercase hover:bg-ysecondary text-[#3e445a] hover:bg-opacity-10 font-semibold hover:text-ysecondary  rounded-[30px] hover:px-3 py-2"
         >
-          Store
+          Products
         </Link>
 
         {category.slice(0, 3).map((categories, index) => (

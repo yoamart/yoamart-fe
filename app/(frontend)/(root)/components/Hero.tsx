@@ -27,13 +27,13 @@ export default function Hero() {
           <h1 className="text-2xl font-bold text-gray-200">
             Premium Table Water
           </h1>
-          <p className="text-sm text-gray-200 mt-2">starting-at</p>
+          {/* <p className="text-sm text-gray-200 mt-2">starting-at</p>
           <p className="text-2xl font-bold text-red-400">
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
               currency: "NGN",
             }).format(150)}
-          </p>
+          </p> */}
         </div>
       </div>
 

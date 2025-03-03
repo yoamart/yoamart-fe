@@ -29,9 +29,9 @@ export default function Logo() {
         src="/images/760--203YOA@3x.png"
         alt="yoamart logo"
       />
-      <p className="text-[10px] opacity-50 md:block hidden">
+      {/* <p className="text-[10px] opacity-50 md:block hidden">
         Online Grocery Shopping Center
-      </p>
+      </p> */}
     </Link>
   );
 }
